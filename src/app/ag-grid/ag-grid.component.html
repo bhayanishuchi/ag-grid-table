@@ -1,0 +1,119 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Configuration</h4>
+                        <div class="row">
+                            <div class="pull-left">
+                                <div class="form-group">
+
+                                    <button (click)="editRow()" [disabled]="!rowsSelected()">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </button>
+                                    <button (click)="deleteSelectedRows()" [disabled]="!rowsSelected()">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <label> File Name:
+                                    <input type="text" id="fileName" style="margin-left: 5px"
+                                           [(ngModel)]="fileName"></label>
+                                <button class="btn-default" style="margin-left: 5px" (click)="onBtExport()">
+                                    <i title="CSV" class="pe-7s-download"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="content">
+                        <form action="">
+                            <ag-grid-angular
+                                #agGrid
+                                style="width: 100%; height: 500px;"
+                                id="myGrid"
+                                class="ag-theme-balham"
+                                [modules]="modules"
+                                [columnDefs]="columnDefs"
+                                [defaultColDef]="defaultColDef"
+                                [sideBar]="sideBar"
+                                [rowData]="rowData"
+                                [rowSelection]="rowSelection"
+                                [pagination]="true"
+                                [paginationPageSize]="paginationPageSize"
+                                (gridReady)="onGridReady($event)"
+                            ></ag-grid-angular>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="backdrop" [ngStyle]="{'display':display}"></div>
+
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="height: 70px;">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                            aria-hidden="true">&times;</span></button>
+                           <h4 class="modal-title">Edit Row</h4>   
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Athlete</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.athlete"
+                                       name="athlete">
+                            </div>
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.age" name="age">
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.country"
+                                       name="country">
+                            </div>
+                            <div class="form-group">
+                                <label>Year</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.year" name="year">
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.date" name="date">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Gold</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.gold" name="gold">
+                            </div>
+                            <div class="form-group">
+                                <label>Silver</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.silver" name="silver">
+                            </div>
+                            <div class="form-group">
+                                <label>Bronze</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.bronze" name="bronze">
+                            </div>
+                            <div class="form-group">
+                                <label>Total</label>
+                                <input type="text" class="form-control" [(ngModel)]="selectedData.total" name="total">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+                       
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal !-->
+</div>

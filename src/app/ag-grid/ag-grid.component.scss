@@ -1,0 +1,61 @@
+/*Floating filters*/
+.ag-cell-label-container {
+  height: 100%;
+}
+.ag-header-cell-label {
+  height: 100%;
+  padding: 0 !important;
+  .ag-header-cell-text {
+    width: 55px;
+    writing-mode: vertical-lr;
+    line-height: 2em;
+    margin-top: 60px;
+  }
+}
+.ag-pivot-off {
+  .ag-header-group-cell {
+    font-size: 50px;
+  }
+  .ag-header-cell-label {
+    color: #8a6d3b;
+  }
+}
+.ag-pivot-on {
+  .ag-header-group-cell {
+    font-size: 10px;
+    color: green;
+  }
+  .ag-header-cell-label {
+    font-size: 10px;
+    height: 90px;
+    padding-top: 36px;
+    margin-left: 0px;
+    color: #1b6d85;
+    font-weight: bold;
+    .ag-header-cell-text {
+      margin-top: 25px;
+    }
+  }
+}
+.ag-floating-filter-body {
+  height: 50px;
+  input {
+    height: 49px;
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+.ag-floating-filter-button {
+  margin-top: -49px;
+  button {
+    height: 49px;
+  }
+}
+.backdrop{
+  background-color:rgba(0,0,0,0.6);
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+}
