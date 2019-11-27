@@ -359,9 +359,22 @@ export class AgGridComponent implements OnInit {
         return this.gridApi && this.gridApi.getSelectedRows().length > 0;
     }
 
-    deleteSelectedRows() {
+    selectedRows(val) {
         const selectRows = this.gridApi.getSelectedRows();
-        console.log('selected row', selectRows)
+        console.log('selected row', selectRows, selectRows.length)
+        if (selectRows.length === 0) {
+            alert('Select any row');
+        } else {
+            if(val === 'close_alert') {
+                document.getElementById('close_popup').style.display = 'block';
+            } else if (val === 'route_alert') {
+                document.getElementById('route_popup').style.display = 'block';
+            } else if (val === 'add_case') {
+                document.getElementById('add_case').style.display = 'block';
+            } else if (val === 'check_selected') {
+                alert('Selected Alerts Checked In')
+            }
+        }
     }
 
     editRow() {

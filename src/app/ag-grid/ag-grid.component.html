@@ -6,6 +6,14 @@
                     <div class="header">
                         <h4 class="title">Configuration</h4>
                         <div class="row">
+                            <div class="pull-left">
+                                    <label> File Name:
+                                        <input type="text" id="fileName" style="margin-left: 5px"
+                                               [(ngModel)]="fileName"></label>
+                                    <button class="btn-default" style="margin-left: 5px" (click)="onBtExport()">
+                                        <i title="CSV" class="pe-7s-download"></i>
+                                    </button>
+                            </div>
                             <!--<div class="pull-left">
                                 <div class="form-group">
 
@@ -17,16 +25,25 @@
                                     </button>
                                 </div>
                             </div>-->
-                            <div class="pull-right">
-                                <label> File Name:
-                                    <input type="text" id="fileName" style="margin-left: 5px"
-                                           [(ngModel)]="fileName"></label>
-                                <button class="btn-default" style="margin-left: 5px" (click)="onBtExport()">
-                                    <i title="CSV" class="pe-7s-download"></i>
-                                </button>
+                            <div class="pull-right" style="margin-right: 15px">
+
+                                <li style="list-style: none" class="nav-item dropdown">
+                                    <a href="#" class="dropdown-toggle btn btn-sm" data-toggle="dropdown">
+                                        <i class="fa fa-bars"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" style="right: 0; left: auto;">
+                                        <li><a (click)="selectedRows('close_alert')">Close Alert</a></li>
+                                        <li><a (click)="selectedRows('route_alert')">Route Alert</a></li>
+                                        <li><a (click)="selectedRows('add_case')">Add to Case</a></li>
+                                        <li><a (click)="selectedRows('check_selected')">Check in Selected</a></li>
+                                    </ul>
+                                </li>
+
+
                             </div>
                         </div>
                     </div>
+
 
                     <div class="content">
                         <form action="">
