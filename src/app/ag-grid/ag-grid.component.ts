@@ -3,6 +3,8 @@ import {AllCommunityModules} from '@ag-grid-community/all-modules';
 import {HttpClient} from '@angular/common/http';
 import {AgGridAngular} from '@ag-grid-community/angular';
 import {AllModules} from '@ag-grid-enterprise/all-modules';
+import {Router} from '@angular/router';
+
 
 @Component({
     selector: 'app-ag-grid',
@@ -25,8 +27,10 @@ export class AgGridComponent implements OnInit {
     display = 'none';
     modules = AllModules;
     selectedData: any = {};
+    gridOptions: any = {};
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private router: Router) {
 
 
         this.columnDefs = [
@@ -43,35 +47,43 @@ export class AgGridComponent implements OnInit {
             },
             {
                 field: 'age',
-                width: 90
+                width: 90,
+                filter: 'agNumberColumnFilter'
             },
             {
                 field: 'country',
-                width: 120
+                width: 120,
+                filter: 'agTextColumnFilter',
             },
             {
                 field: 'year',
-                width: 90
+                width: 90,
+                filter: 'agNumberColumnFilter'
             },
             {
                 field: 'date',
-                width: 110
+                width: 110,
+                filter: 'agTextColumnFilter',
             },
             {
                 field: 'gold',
-                width: 100
+                width: 100,
+                filter: 'agTextColumnFilter',
             },
             {
                 field: 'silver',
-                width: 100
+                width: 100,
+                filter: 'agTextColumnFilter',
             },
             {
                 field: 'bronze',
-                width: 100
+                width: 100,
+                filter: 'agTextColumnFilter',
             },
             {
                 field: 'total',
-                width: 100
+                width: 100,
+                filter: 'agNumberColumnFilter'
             }
         ];
         this.defaultColDef = {
@@ -90,15 +102,18 @@ export class AgGridComponent implements OnInit {
                     iconKey: 'columns',
                     toolPanel: 'agColumnsToolPanel',
                     toolPanelParams: {
-                        toolPanelSuppressRowGroups: true,
-                        toolPanelSuppressValues: true,
-                        toolPanelSuppressPivots: true,
-                        toolPanelSuppressPivotMode: true
+                        suppressSyncLayoutWithGrid: true
                     }
                 }
             ]
         };
         this.paginationPageSize = 15;
+        this.gridOptions = {
+            rowSelection: 'multiple',
+            context: {
+                componentParent: this
+            }
+        };
     }
 
     ngOnInit() {
@@ -357,5 +372,39 @@ export class AgGridComponent implements OnInit {
 
     onCloseHandled() {
         this.display = 'none';
+        document.getElementById('close_popup').style.display  = 'none';
+        document.getElementById('route_popup').style.display  = 'none';
+        document.getElementById('add_case').style.display  = 'none';
     }
+
+    onCellDoubleClicked(e) {
+        console.log('event', e);
+        this.router.navigate(['/dashboard']);
+    }
+
+    getContextMenuItems(params) {
+        var result = [
+            {
+                name: 'Close Selected',
+                action: function () {
+                    document.getElementById('close_popup').style.display = 'block'
+                },
+            },
+            {
+                name: 'Route Selected',
+                action: function() {
+                    document.getElementById('route_popup').style.display = 'block'
+                },
+            },
+            {
+                name: 'Add to case',
+                action: function() {
+                    document.getElementById('add_case').style.display = 'block'
+                },
+            },
+            'copy',
+        ];
+        return result;
+    }
+
 }

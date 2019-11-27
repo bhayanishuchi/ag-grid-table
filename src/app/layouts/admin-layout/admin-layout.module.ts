@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { NguiMapModule} from '@ngui/map';
 
@@ -11,7 +11,6 @@ import { UserComponent } from '../../user/user.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import {AgGridComponent} from '../../ag-grid/ag-grid.component';
 import {AgGridModule} from '@ag-grid-community/angular';
-
 
 @NgModule({
   imports: [
@@ -25,8 +24,9 @@ import {AgGridModule} from '@ag-grid-community/angular';
     HomeComponent,
     UserComponent,
     UpgradeComponent,
-    AgGridComponent,
-  ]
+    AgGridComponent
+  ],
+  providers: []
 })
 
 export class AdminLayoutModule {}

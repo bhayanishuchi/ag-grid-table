@@ -10,6 +10,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: HomeComponent },
     { path: 'user',           component: UserComponent },
     { path: 'upgrade',        component: UpgradeComponent },
-    { path: 'ag',      component: AgGridComponent },
+    { path: 'ag',      component: AgGridComponent }
 
 ];
