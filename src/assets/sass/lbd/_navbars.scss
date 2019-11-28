@@ -102,27 +102,27 @@
         > .active > a:focus:not(.btn),
         > li > a:hover:not(.btn),
         > li > a:focus:not(.btn){
-            background-color: transparent;
+            background-color: #1476ae;
             border-radius: 3px;
-            color: $white-color;
+            color: white;
             @include opacity(1);
         }
         .nav > li > a.btn:hover{
-            background-color: transparent;
+            background-color: #1476ae;
         }
         
         > .dropdown > a .caret,
         > .dropdown > a:hover .caret,
         > .dropdown > a:focus .caret{
-            border-bottom-color: $white-color;
-            border-top-color: $white-color;
+            border-bottom-color: white;
+            border-top-color: white;
         } 
         
         > .open > a,
         > .open > a:hover,
         > .open > a:focus {
-            background-color: transparent;
-            color: $white-color;
+            background-color: #1476ae;
+            color: white;
             @include opacity(1);
         }
     }
@@ -153,8 +153,8 @@
 }
 
 .nav-open .nav .caret{
-    border-bottom-color: $white-color;
-    border-top-color: $white-color;
+    border-bottom-color: white;
+    border-top-color: white;
 }
 
 .navbar-default {
@@ -173,24 +173,24 @@
         > .active > a:not(.btn):focus, 
         > li > a:not(.btn):hover, 
         > li > a:not(.btn):focus {
-            background-color: transparent;
+            background-color: #1476ae;
             border-radius: 3px;
-            color: $info-color;
+            color: white;
             @include opacity(1);
         }
         
         > .dropdown > a:hover .caret, 
         > .dropdown > a:focus .caret {
-            border-bottom-color: $info-color;
-            border-top-color: $info-color;
+            border-bottom-color: white;
+            border-top-color: white;
             
         }
         
         > .open > a, 
         > .open > a:hover, 
         > .open > a:focus{
-            background-color: transparent;
-            color: $info-color;
+            background-color: #1476ae;
+            color: white;
         }
 
         .navbar-toggle:hover,.navbar-toggle:focus {

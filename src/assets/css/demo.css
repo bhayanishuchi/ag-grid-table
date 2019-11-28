@@ -62,3 +62,21 @@
 .table-upgrade td:nth-child(3){
     text-align: center;
 }
+.dx-datagrid-headers .dx-header-row {
+    /*background-color: #00bbff !important;*/
+    background-image: linear-gradient(#36a7e8, #1995dc 60%, #1789ca) !important;
+    color: #ffffff !important;
+}
+.dx-pager .dx-pages .dx-selection, .dx-pager .dx-page-sizes .dx-selection {
+    background-image: linear-gradient(#36a7e8, #1995dc 60%, #1789ca) !important;
+    color: #ffffff !important;
+}
+
+.footer {
+    background-image: linear-gradient(#36a7e8, #1995dc 60%, #1789ca) !important;
+    color: #ffffff !important;
+}
+
+.footer .copyright {
+    color: white;
+}

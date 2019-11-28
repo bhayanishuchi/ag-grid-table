@@ -11,6 +11,10 @@ import { UserComponent } from '../../user/user.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import {AgGridComponent} from '../../ag-grid/ag-grid.component';
 import {AgGridModule} from '@ag-grid-community/angular';
+import {AdminLayoutComponent} from './admin-layout.component';
+import {MyAlertsComponent} from '../../my-alerts/my-alerts.component';
+import {DxCheckBoxModule, DxDataGridModule, DxSelectBoxModule} from 'devextreme-angular';
+import {Service} from '../../services/data.services';
 
 @NgModule({
   imports: [
@@ -18,15 +22,19 @@ import {AgGridModule} from '@ag-grid-community/angular';
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=YOUR_KEY_HERE'}),
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    DxDataGridModule,
+    DxSelectBoxModule,
+    DxCheckBoxModule
   ],
   declarations: [
     HomeComponent,
     UserComponent,
     UpgradeComponent,
-    AgGridComponent
+    AgGridComponent,
+    MyAlertsComponent
   ],
-  providers: []
+  providers: [Service]
 })
 
 export class AdminLayoutModule {}
