@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DxDataGridComponent} from 'devextreme-angular';
 import {Company, Service} from '../services/data.services';
 import {Router} from '@angular/router';
+import {AlertService} from '../services/alert.service';
 
 @Component({
     selector: 'app-my-alerts',
@@ -10,67 +11,30 @@ import {Router} from '@angular/router';
 })
 export class MyAlertsComponent implements OnInit {
     @ViewChild(DxDataGridComponent) dataGrid: DxDataGridComponent;
-    // orders: Company[];
     currentFilter: any;
     showFilterRow: boolean;
-    dataSource: Company[];
+    dataSource: any = [];
     selectedRows: any = [];
     display = 'none';
     allMode: string;
     checkBoxesMode: string;
-    columnChooserModes = 'select'
+    columnChooserModes = 'select';
+    userid;
 
-    constructor(service: Service,
+    constructor(private alertService: AlertService,
                 private router: Router) {
         this.allMode = 'allPages';
-        this.checkBoxesMode = 'onClick'
-        this.dataSource = service.getCompanies();
+        this.checkBoxesMode = 'onClick';
         this.showFilterRow = true;
-
-        this.orderHeaderFilter = this.orderHeaderFilter.bind(this);
-    }
-
-    onCellPrepared(e) {
-        if (e.rowType === 'data') {
-
-            if (e.column.dataField === 'CompanyName') {
-                e.cellElement.style.fontWeight = 'bold';
-            }
-            if (e.column.dataField === 'Phone') {
-                e.cellElement.style.color = '#000000';
-
-            }
-
-        }
-    }
-
-    customizeExcelCell(options) {
-        let gridCell = options.gridCell;
-        if (!gridCell) {
-            return;
-        }
-        if (gridCell.rowType === 'data') {
-            if (gridCell.column.dataField === 'CompanyName') {
-                options.font.bold = true;
-            }
-            if (gridCell.column.dataField === 'Phone') {
-                options.backgroundColor = '#FFBB00';
-                options.font.color = '#000000';
-            }
-        }
-    }
-
-    orderHeaderFilter(data) {
-        data.dataSource.postProcess = (results) => {
-            results.push({
-                text: 'Weekends',
-                value: 'weekends'
-            });
-            return results;
-        };
     }
 
     ngOnInit() {
+        this.userid = 'DEMOUSER1';
+        this.alertService.getMyAlert(this.userid)
+            .subscribe((res) => {
+                this.dataSource = res;
+            })
+
     }
 
     selectionChangedHandler() {
@@ -102,8 +66,8 @@ export class MyAlertsComponent implements OnInit {
     }
 
     onDblClick(val) {
-        console.log('valllll', val);
-        this.router.navigate(['/dashboard']);
+        console.log('valllll', val.data.AlertId);
+        this.router.navigate(['/dtlAlerts'], {queryParams: {id: val.data.AlertId}});
     }
 
 }

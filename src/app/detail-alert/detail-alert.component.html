@@ -1,0 +1,281 @@
+<div class="main-content">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row" style="padding: 10px">
+                <h3 class="panel-title">Alert Details: {{selectedAlert}}</h3>
+                <div class="pull-right">
+                    <button class="btn btn-sm custom-btn">Check In</button>
+                    <button class="btn btn-sm custom-btn">Route</button>
+                    <button class="btn btn-sm custom-btn">Close</button>
+                    <button class="btn btn-sm custom-btn">Suppress</button>
+                    <button class="btn btn-sm custom-btn">Add to Case</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div id="exTab2">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#overview" data-toggle="tab">Overview</a>
+                    </li>
+                    <li>
+                        <a href="#history" data-toggle="tab">History</a>
+                    </li>
+                    <li>
+                        <a href="#documents" data-toggle="tab">Documents</a>
+                    </li>
+                    <li>
+                        <a href="#comments" data-toggle="tab">Comments</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active custom-tab-pan" id="overview">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Description:</label> {{detailData.AlDesc}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Transaction Date:</label> {{detailData.AlTxnDate  | date: 'yyyy-MM-dd'}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Create Date:</label> {{detailData.AlCrtDate  | date: 'yyyy-MM-dd'}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Create By:</label> {{detailData.AlCrtUser}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Transaction Entity Type:</label> {{detailData.TxnEtyType}}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Status:</label> {{detailData.AlStatus}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Scenario:</label> {{detailData.Scenario}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Scenario Desc:</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Owner:</label> {{detailData.AlUser}}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Entity Name:</label> {{detailData.EtyName}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Entity Number:</label> {{detailData.EtyNbr}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Entity Type:</label> {{detailData.EtyType}}
+                                </div>
+                                <div class="form-group">
+                                    <label>Entity Org:</label> {{detailData.EtyIndOrg}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane custom-tab-pan" id="history">
+                        <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Action Date</th>
+                                    <th>Action User</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let action of detailData.Actions">
+                                    <td>{{action.AlActDesc}}</td>
+                                    <td>{{action.AlActDate | date: 'yyyy-MM-dd'}}</td>
+                                    <td>{{action.AlActUser}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="tab-pane custom-tab-pan" id="documents">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Action Date</th>
+                                    <th>Action User</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let action of detailData.AlDocuments">
+                                    <td>{{action.DocDate | date: 'yyyy-MM-dd'}}</td>
+                                    <td>{{action.DocUser}}</td>
+                                    <td>{{action.FileName}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="">
+                                <button (click)="openModal()">Add <i class="fa fa-plus-circle"></i></button>
+                            </div>
+                    </div>
+                    <div class="tab-pane custom-tab-pan" id="comments">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Text</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let action of detailData.AlComments">
+                                    <td>{{action.CommentTxt}}</td>
+                                    <td>{{action.CommentDate | date: 'yyyy-MM-dd'}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="">
+                                <button (click)="openCommentModal()">Add <i class="fa fa-plus-circle"></i></button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row" style="padding: 10px">
+                <h3 class="panel-title">Transaction Details</h3>
+                <div class="pull-right">
+                    <button class="btn btn-sm custom-btn">Check In</button>
+                    <button class="btn btn-sm custom-btn">Route</button>
+                    <button class="btn btn-sm custom-btn">Close</button>
+                    <button class="btn btn-sm custom-btn">Suppress</button>
+                    <button class="btn btn-sm custom-btn">Add to Case</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div>
+                <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">
+                    <li style="list-style: none" class="nav-item dropdown">
+                        <a href="#" class="dropdown-toggle btn btn-sm" style="color: black; border-color: black;" data-toggle="dropdown">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <ul class="dropdown-menu" style="right: 0; left: auto;">
+                            <li><a (click)="getSelectedRows('close_alert')">Close Alert</a></li>
+                            <li><a (click)="getSelectedRows('route_alert')">Route Alert</a></li>
+                            <li><a (click)="getSelectedRows('add_case')">Add to Case</a></li>
+                            <li><a (click)="getSelectedRows('check_selected')">Check in Selected</a></li>
+                        </ul>
+                    </li>
+                </div>
+                <dx-data-grid
+                        id="gridContainer"
+                        [dataSource]="alDetails"
+                        [showBorders]="true"
+                        [(selectedRowKeys)]="selectedRows"
+                        (onSelectionChanged)="selectionChangedHandler()">
+
+                    <dxo-column-chooser #columnChooser
+                                        [enabled]="true"
+                                        [mode]="columnChooserModes">
+                    </dxo-column-chooser>
+                    <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+                    <dxo-filter-row
+                            [visible]="showFilterRow"
+                            [applyFilter]="currentFilter"></dxo-filter-row>
+                    <dxo-selection
+                            [selectAllMode]="allMode"
+                            [showCheckBoxesMode]="checkBoxesMode"
+                            mode="multiple"
+                    ></dxo-selection>
+                    <dxi-column
+                            dataField="AlertId"
+                            caption="Alert ID">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="AlDesc"
+                            caption="Description">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Scenario"
+                            caption="Scenario">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="AlStatus"
+                            caption="Status">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="AlTxnDate"
+                            caption="Transaction Date"
+                            dataType="date"
+                            format='yyyy-MM-dd'>
+                    </dxi-column>
+                    <dxi-column
+                            dataField="AlCrtDate"
+                            caption="Create Date"
+                            dataType="date"
+                            format='yyyy-MM-dd'>
+                    </dxi-column>
+                    <dxi-column
+                            dataField="AlUser"
+                            caption="Owner">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="AlCrtUser"
+                            caption="Create User">
+                    </dxi-column>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager
+                            [showPageSizeSelector]="true"
+                            [allowedPageSizes]="[5, 10, 20]"
+                            [showInfo]="true">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true"></dxo-export>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+    <div class="backdrop" [ngStyle]="{'display':display}"></div>
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                     <h3 class="modal-title custom-title">Select Document</h3>
+                </div>
+                <div class="modal-body">
+                    <p *ngIf="showSuccessMsg">File upload Successful. Press OK to close</p>
+                    <input type="file" [(ngModel)]="uploadFile">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn custom-primary-btn" *ngIf="showSuccessMsg" (click)="onCloseHandled()">Ok</button>
+                    <button type="button" class="btn custom-primary-btn" *ngIf="!showSuccessMsg" (click)="uploadFileData()">Upload File</button>
+                    <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal !-->
+
+    <div class="backdrop" [ngStyle]="{'display':displayCommentModal}"></div>
+    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayCommentModal}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title custom-title">Add Comments</h3>
+                </div> 
+                <div class="modal-body">     
+                    <div class="form-group">
+                        <label>Comment:</label>
+                        <textarea rows="2" class="form-control" [(ngModel)]="commentData"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">     
+                    <button type="button" class="btn btn-info" (click)="addCommentData()">Ok</button>
+                    <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal !-->
+</div>

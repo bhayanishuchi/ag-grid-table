@@ -1,0 +1,174 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="header">
+            <h4 class="title">Suppressed Alerts</h4>
+            <!--                        <div class="row">-->
+            <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">
+              <li style="list-style: none" class="nav-item dropdown">
+                <a href="#" class="dropdown-toggle btn btn-sm" style="color: black; border-color: black;" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </a>
+                <ul class="dropdown-menu" style="right: 0; left: auto;">
+                  <li><a (click)="getSelectedRows('close_alert')">Close Alert</a></li>
+                  <li><a (click)="getSelectedRows('route_alert')">Route Alert</a></li>
+                  <li><a (click)="getSelectedRows('add_case')">Add to Case</a></li>
+                  <li><a (click)="getSelectedRows('check_selected')">Check in Selected</a></li>
+                </ul>
+              </li>
+            </div>
+            <!--                        </div>-->
+            <dx-data-grid
+                    id="gridContainer"
+                    [dataSource]="dataSource"
+                    [showBorders]="true"
+                    [(selectedRowKeys)]="selectedRows"
+                    (onCellDblClick)="onDblClick($event)"
+                    (onSelectionChanged)="selectionChangedHandler()"
+                    (onCellPrepared)="onCellPrepared($event)">
+
+              <dxo-column-chooser #columnChooser
+                                  [enabled]="true"
+                                  [mode]="columnChooserModes">
+              </dxo-column-chooser>
+              <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+              <dxo-filter-row
+                      [visible]="showFilterRow"
+                      [applyFilter]="currentFilter"></dxo-filter-row>
+              <dxo-selection
+                      [selectAllMode]="allMode"
+                      [showCheckBoxesMode]="checkBoxesMode"
+                      mode="multiple"
+              ></dxo-selection>
+              <dxi-column
+                      dataField="AlertId"
+                      caption="Alert ID">
+              </dxi-column>
+              <dxi-column
+                      dataField="AlDesc"
+                      caption="Description">
+              </dxi-column>
+              <dxi-column
+                      dataField="Scenario"
+                      caption="Scenario">
+              </dxi-column>
+              <dxi-column
+                      dataField="AlStatus"
+                      caption="Status">
+              </dxi-column>
+              <dxi-column
+                      dataField="AlTxnDate"
+                      caption="Transaction Date"
+                      dataType="date"
+                      format='yyyy-MM-dd'>
+              </dxi-column>
+              <dxi-column
+                      dataField="AlCrtDate"
+                      caption="Create Date"
+                      dataType="date"
+                      format='yyyy-MM-dd'>
+              </dxi-column>
+              <dxi-column
+                      dataField="AlUser"
+                      caption="Owner">
+              </dxi-column>
+              <dxi-column
+                      dataField="AlCrtUser"
+                      caption="Create User">
+              </dxi-column>
+              <dxo-paging [pageSize]="5"></dxo-paging>
+              <dxo-pager
+                      [showPageSizeSelector]="true"
+                      [allowedPageSizes]="[5, 10, 20]"
+                      [showInfo]="true">
+              </dxo-pager>
+              <dxo-export [enabled]="true"></dxo-export>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal backdrop" id="close_popup" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                  aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title">Close Alert</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div style="padding: 10px">
+              <label>Close Reason:</label>
+              <select class="form-control">
+                <option value="reason1">Alert Close Reason 1</option>
+                <option value="reason2">Alert Close Reason 2</option>
+                <option value="reason3">Alert Close Reason 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <div class="modal backdrop" id="route_popup" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                  aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title">Route Alert</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div style="padding: 10px">
+              <label>Select User id:</label>
+              <select class="form-control">
+                <option value="reason1">Alert Close Reason 1</option>
+                <option value="reason2">Alert Close Reason 2</option>
+                <option value="reason3">Alert Close Reason 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <div class="modal backdrop" id="add_case" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                  aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title">Select a Case</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div style="padding: 10px">
+              <label>Select case id:</label>
+              <input type="text" class="form-control" name="case_id">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+</div>

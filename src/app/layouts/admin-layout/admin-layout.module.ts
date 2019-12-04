@@ -15,6 +15,11 @@ import {AdminLayoutComponent} from './admin-layout.component';
 import {MyAlertsComponent} from '../../my-alerts/my-alerts.component';
 import {DxCheckBoxModule, DxDataGridModule, DxSelectBoxModule} from 'devextreme-angular';
 import {Service} from '../../services/data.services';
+import {AvailableAlertComponent} from '../../available-alert/available-alert.component';
+import {ClosedAlertComponent} from '../../closed-alert/closed-alert.component';
+import {SuppressedAlertComponent} from '../../suppressed-alert/suppressed-alert.component';
+import {NewAlertComponent} from '../../new-alert/new-alert.component';
+import {DetailAlertComponent} from '../../detail-alert/detail-alert.component';
 
 @NgModule({
   imports: [
@@ -32,7 +37,12 @@ import {Service} from '../../services/data.services';
     UserComponent,
     UpgradeComponent,
     AgGridComponent,
-    MyAlertsComponent
+    MyAlertsComponent,
+    AvailableAlertComponent,
+    ClosedAlertComponent,
+    SuppressedAlertComponent,
+    NewAlertComponent,
+    DetailAlertComponent
   ],
   providers: [Service]
 })
