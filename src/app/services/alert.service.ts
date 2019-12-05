@@ -56,8 +56,16 @@ export class AlertService {
   putSuppress(data) {
     return this.http.put(this.api + '/supAlerts' , data);
   }
+
   putaddtocase(caseId, data) {
     return this.http.put(this.api + '/addAlsCas/' + caseId, data);
+  }
+
+  getusers() {
+    return this.http.get<any>('https://devamlapi.azurewebsites.net/users');
+  }
+  getlovs() {
+    return this.http.get<any>(this.api + '/lovs');
   }
 
 

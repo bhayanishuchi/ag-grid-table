@@ -14,6 +14,8 @@ export class DetailAlertComponent implements OnInit {
     selectedAlert;
     uploadFile;
     commentData;
+    selectedUserId;
+    selectUserId = [];
     detailData: any = {};
     displayCommentModal = 'none';
     CheckInModel = 'none';
@@ -28,7 +30,9 @@ export class DetailAlertComponent implements OnInit {
     selectedRows: any = [];
     columnChooserModes = 'select';
     showFilterRow: boolean;
-
+    selectloves: any = {};
+    AlertSupRsns;
+    Suppress_Until;
     constructor(private activateRoute: ActivatedRoute,
                 private router: Router,
                 private notificationService: NotificationService,
@@ -59,7 +63,14 @@ export class DetailAlertComponent implements OnInit {
             })
     }
 
-
+    getloves() {
+        this.alertService.getlovs()
+            .subscribe((res) => {
+                this.selectloves = res.lovs[0];
+            }, error => {
+                console.log('error', error);
+            })
+        }
     openModal() {
         this.display = 'block';
     }
@@ -70,9 +81,18 @@ export class DetailAlertComponent implements OnInit {
 
     openCloseModal() {
         this.closeModal = 'block';
+        this.getloves()
     }
     openRouteModal() {
         this.RouteModal = 'block';
+        this.alertService.getusers()
+            .subscribe((res) => {
+                console.log('res', res);
+                this.selectUserId = res
+            }, error => {
+                console.log('error', error);
+            })
+
     }
     openCheckInModel() {
         const data = {
@@ -105,8 +125,9 @@ export class DetailAlertComponent implements OnInit {
     }
     openSuppressModal() {
         this.SuppressModal = 'block';
-    }
+        this.getloves()
 
+    }
     uploadFileData() {
         console.log('upload', this.uploadFile);
         const data = {
@@ -119,7 +140,6 @@ export class DetailAlertComponent implements OnInit {
                 this.showSuccessMsg = true;
             })
     }
-
     addCommentData() {
         console.log('upload', this.commentData);
         const data = {
@@ -134,7 +154,6 @@ export class DetailAlertComponent implements OnInit {
                 this.getDetailAlt(this.selectedAlert);
             })
     }
-
     onRouteok() {
         const data = {
             AlActUser: 'DEMOUSER1',
@@ -151,7 +170,6 @@ export class DetailAlertComponent implements OnInit {
 
             })
     }
-
     oncloseok() {
         const data = {
             AlActUser: 'DEMOUSER1',
@@ -173,8 +191,8 @@ export class DetailAlertComponent implements OnInit {
         const data = {
             ActUser: 'DEMOUSER1',
             AlertId: this.selectedAlert,
-            AlActResn: ' ',
-            AlSupDate: ' '
+            AlActResn: this.AlertSupRsns,
+            AlSupDate: this.Suppress_Until,
         };
 
         const SuppressData = [];
