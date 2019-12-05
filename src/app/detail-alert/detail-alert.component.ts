@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AlertService} from '../services/alert.service';
+import {NotificationService} from '../services/notification.service';
 
 @Component({
     selector: 'app-detail-alert',
@@ -14,7 +15,12 @@ export class DetailAlertComponent implements OnInit {
     commentData;
     detailData: any = {};
     displayCommentModal = 'none';
+    CheckInModel = 'none';
+    closeModal = 'none';
+    AddToCaseModel = 'none';
     display = 'none';
+    RouteModal = 'none';
+    SuppressModal = 'none';
     showSuccessMsg = false;
     alDetails: any = [];
     selectedRows: any = [];
@@ -22,6 +28,7 @@ export class DetailAlertComponent implements OnInit {
     showFilterRow: boolean;
 
     constructor(private activateRoute: ActivatedRoute,
+                private notificationService: NotificationService,
                 private alertService: AlertService) {
     }
 
@@ -58,9 +65,38 @@ export class DetailAlertComponent implements OnInit {
         this.displayCommentModal = 'block';
     }
 
+    openCloseModal() {
+        this.closeModal = 'block';
+    }
+    openRouteModal() {
+        this.RouteModal = 'block';
+    }
+    openCheckInModel() {
+        const data = {
+            AlActUser: 'DEMOUSER1',
+            AlertId: this.selectedAlert
+        };
+        const checkInData = [];
+        checkInData.push(data)
+        this.alertService.getcheckin(checkInData)
+            .subscribe((res) => {
+                console.log('check in res', res);
+                this.showSuccessMsg = true;
+
+                // this.notificationService.showNotification(res, 'success')
+
+            })
+    }
+    openAddToCaseModel() {
+        this.AddToCaseModel = 'block';
+    }
+    openSuppressModal() {
+        this.SuppressModal = 'block';
+    }
+
     uploadFileData() {
         console.log('upload', this.uploadFile);
-        let data = {
+        const data = {
             file: this.uploadFile,
             ActUser: 'DEMOUSER1'
         };
@@ -73,7 +109,7 @@ export class DetailAlertComponent implements OnInit {
 
     addCommentData() {
         console.log('upload', this.commentData);
-        let data = {
+        const data = {
             AlActUser: 'DEMOUSER1',
             AlertId: this.selectedAlert,
             CommentTxt: this.commentData
@@ -86,9 +122,86 @@ export class DetailAlertComponent implements OnInit {
             })
     }
 
+    onRouteok() {
+        const data = {
+            AlActUser: 'DEMOUSER1',
+            AlRteUser: 'amladm',
+            AlertId: this.selectedAlert
+        };
+        const routeData = [];
+        routeData.push(data)
+        this.alertService.putroute(routeData)
+            .subscribe((res) => {
+                console.log('routeData in res', res);
+                this.showSuccessMsg = true;
+                this.RouteModal = 'none';
+
+            })
+    }
+
+    oncloseok() {
+        const data = {
+            AlActUser: 'DEMOUSER1',
+            AlertId: this.selectedAlert
+        };
+
+        const closeData = [];
+        closeData.push(data)
+        this.alertService.putclose(closeData)
+            .subscribe((res) => {
+                console.log('closeData in res', res);
+                this.showSuccessMsg = true;
+                this.closeModal = 'none';
+
+            })
+
+    }
+    onSuppressok() {
+        const data = {
+            ActUser: 'DEMOUSER1',
+            AlertId: this.selectedAlert,
+            AlActResn: ' ',
+            AlSupDate: ' '
+        };
+
+        const SuppressData = [];
+        SuppressData.push(data)
+        this.alertService.putSuppress(SuppressData)
+            .subscribe((res) => {
+                console.log('SuppressData in res', res);
+                this.showSuccessMsg = true;
+                this.SuppressModal = 'none';
+
+            })
+
+
+    }
+    onAddToCaseok() {
+        const data = {
+            CsActUser: 'DEMOUSER1',
+            AlertId: this.selectedAlert,
+            CaseId: ' ',
+        };
+        const addtocaseData = [];
+        addtocaseData.push(data)
+        this.alertService.putaddtocase(addtocaseData)
+            .subscribe((res) => {
+                console.log('add to case Data in res', res);
+                this.showSuccessMsg = true;
+                this.AddToCaseModel = 'none';
+
+            })
+
+    }
     onCloseHandled() {
         this.display = 'none';
         this.displayCommentModal = 'none';
+        this.CheckInModel = 'none';
+        this.closeModal = 'none';
+        this.RouteModal = 'none';
+        this.AddToCaseModel = 'none';
+        this.SuppressModal = 'none';
+
     }
 
     selectionChangedHandler() {

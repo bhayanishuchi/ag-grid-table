@@ -42,5 +42,24 @@ export class AlertService {
     return this.http.get(this.api + '/myAlerts/' + id);
   }
 
+  getcheckin(data) {
+    return this.http.put(this.api + '/cinAlerts' , data);
+  }
+
+  putroute(data) {
+    return this.http.put(this.api + '/rteAlerts' , data);
+  }
+  putclose(data) {
+    return this.http.put(this.api + '/closeAlerts' , data);
+  }
+
+  putSuppress(data) {
+    return this.http.put(this.api + '/supAlerts' , data);
+  }
+  putaddtocase(data) {
+    return this.http.put(this.api + '/addAlsCas/' , data);
+  }
+
+
 
 }

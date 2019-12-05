@@ -70,4 +70,6 @@ export class MyAlertsComponent implements OnInit {
         this.router.navigate(['/dtlAlerts'], {queryParams: {id: val.data.AlertId}});
     }
 
+
+
 }

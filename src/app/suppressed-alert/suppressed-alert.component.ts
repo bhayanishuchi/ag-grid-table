@@ -91,8 +91,8 @@ export class SuppressedAlertComponent implements OnInit {
   }
 
   onDblClick(val) {
-    console.log('valllll', val);
-    this.router.navigate(['/dashboard']);
+    console.log('valllll', val.data.AlertId);
+    this.router.navigate(['/dtlAlerts'], {queryParams: {id: val.data.AlertId}});
   }
 
 }

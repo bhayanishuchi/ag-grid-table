@@ -17,7 +17,7 @@ export class NotificationService {
             timer: 3000,
             placement: {
                 from: 'top',
-                align: 'right'
+                align: 'right',
             }
         });
     }
