@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AlertService} from '../services/alert.service';
 import {NotificationService} from '../services/notification.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-detail-alert',
@@ -9,7 +10,7 @@ import {NotificationService} from '../services/notification.service';
     styleUrls: ['./detail-alert.component.scss']
 })
 export class DetailAlertComponent implements OnInit {
-
+    selectedCase;
     selectedAlert;
     uploadFile;
     commentData;
@@ -18,6 +19,7 @@ export class DetailAlertComponent implements OnInit {
     CheckInModel = 'none';
     closeModal = 'none';
     AddToCaseModel = 'none';
+    AddToNewCaseModel = 'none';
     display = 'none';
     RouteModal = 'none';
     SuppressModal = 'none';
@@ -28,6 +30,7 @@ export class DetailAlertComponent implements OnInit {
     showFilterRow: boolean;
 
     constructor(private activateRoute: ActivatedRoute,
+                private router: Router,
                 private notificationService: NotificationService,
                 private alertService: AlertService) {
     }
@@ -84,11 +87,21 @@ export class DetailAlertComponent implements OnInit {
                 this.showSuccessMsg = true;
 
                 // this.notificationService.showNotification(res, 'success')
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
     }
     openAddToCaseModel() {
         this.AddToCaseModel = 'block';
+    }
+    openAddToNewCaseModel() {
+        this.AddToCaseModel = 'none';
+        this.AddToNewCaseModel = 'block';
+    }
+    cancelAddToNewCaseModel() {
+        this.AddToNewCaseModel = 'none';
+        this.AddToCaseModel = 'block';
+
     }
     openSuppressModal() {
         this.SuppressModal = 'block';
@@ -134,7 +147,7 @@ export class DetailAlertComponent implements OnInit {
             .subscribe((res) => {
                 console.log('routeData in res', res);
                 this.showSuccessMsg = true;
-                this.RouteModal = 'none';
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
     }
@@ -151,7 +164,7 @@ export class DetailAlertComponent implements OnInit {
             .subscribe((res) => {
                 console.log('closeData in res', res);
                 this.showSuccessMsg = true;
-                this.closeModal = 'none';
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
 
@@ -170,25 +183,26 @@ export class DetailAlertComponent implements OnInit {
             .subscribe((res) => {
                 console.log('SuppressData in res', res);
                 this.showSuccessMsg = true;
-                this.SuppressModal = 'none';
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
 
 
     }
     onAddToCaseok() {
+        let caseId = this.selectedCase
         const data = {
             CsActUser: 'DEMOUSER1',
             AlertId: this.selectedAlert,
-            CaseId: ' ',
+            CaseId: this.selectedCase,
         };
         const addtocaseData = [];
         addtocaseData.push(data)
-        this.alertService.putaddtocase(addtocaseData)
+        this.alertService.putaddtocase(caseId,addtocaseData)
             .subscribe((res) => {
                 console.log('add to case Data in res', res);
                 this.showSuccessMsg = true;
-                this.AddToCaseModel = 'none';
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
 
@@ -201,6 +215,7 @@ export class DetailAlertComponent implements OnInit {
         this.RouteModal = 'none';
         this.AddToCaseModel = 'none';
         this.SuppressModal = 'none';
+        this.AddToNewCaseModel = 'none';
 
     }
 

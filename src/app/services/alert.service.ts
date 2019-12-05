@@ -56,8 +56,8 @@ export class AlertService {
   putSuppress(data) {
     return this.http.put(this.api + '/supAlerts' , data);
   }
-  putaddtocase(data) {
-    return this.http.put(this.api + '/addAlsCas/' , data);
+  putaddtocase(caseId, data) {
+    return this.http.put(this.api + '/addAlsCas/' + caseId, data);
   }
 
 
