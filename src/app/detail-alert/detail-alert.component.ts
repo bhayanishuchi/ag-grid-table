@@ -33,13 +33,28 @@ export class DetailAlertComponent implements OnInit {
     selectloves: any = {};
     AlertSupRsns;
     Suppress_Until;
+    Case_Rsns;
+    Case_Types;
+    selectMycase;
+    case_id;
+    page;
+    availabelealearts_page;
+    suppressedalearts_page;
+    close_page;
+  isButtonVisible = true;
     constructor(private activateRoute: ActivatedRoute,
                 private router: Router,
                 private notificationService: NotificationService,
                 private alertService: AlertService) {
     }
 
+
+
+
+
     ngOnInit() {
+        this.page = sessionStorage.getItem('page')
+        console.log('hudhuh', this.page)
         this.activateRoute.queryParams.subscribe((data) => {
             console.log('data.stack', data.id);
             this.selectedAlert = data.id;
@@ -94,6 +109,7 @@ export class DetailAlertComponent implements OnInit {
             })
 
     }
+
     openCheckInModel() {
         const data = {
             AlActUser: 'DEMOUSER1',
@@ -104,19 +120,60 @@ export class DetailAlertComponent implements OnInit {
         this.alertService.getcheckin(checkInData)
             .subscribe((res) => {
                 console.log('check in res', res);
-                this.showSuccessMsg = true;
+                this.notificationService.showNotification(res.message, 'success')
 
-                // this.notificationService.showNotification(res, 'success')
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
+
+            })
+    }
+    openCheckoutModel() {
+        const data = {
+            AlActUser: 'DEMOUSER1',
+            AlertId: this.selectedAlert
+        };
+        const checkoutData = [];
+        checkoutData.push(data)
+        this.alertService.getcheckout(checkoutData)
+            .subscribe((res) => {
+                console.log('check in res', res);
+                this.notificationService.showNotification(res.message, 'success')
+
                 this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
     }
     openAddToCaseModel() {
         this.AddToCaseModel = 'block';
+        const caseid= 'DEMOUSER1';
+
+        this.alertService.getmycase(caseid)
+            .subscribe((res) => {
+                console.log('caseid  res', res);
+                this.selectMycase = res;
+            }, error => {
+                console.log('error', error);
+            })
+   }
+
+    openActiveModel(){
+        const data = {
+            AlertId: this.selectedAlert
+        };
+        const checkInData = [];
+        checkInData.push(data)
+        this.alertService.getActive(checkInData)
+            .subscribe((res) => {
+                console.log('check in res', res);
+                this.notificationService.showNotification(res.message, 'success')
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
+
+            })
     }
     openAddToNewCaseModel() {
         this.AddToCaseModel = 'none';
         this.AddToNewCaseModel = 'block';
+        this.getloves()
+
     }
     cancelAddToNewCaseModel() {
         this.AddToNewCaseModel = 'none';
@@ -157,7 +214,7 @@ export class DetailAlertComponent implements OnInit {
     onRouteok() {
         const data = {
             AlActUser: 'DEMOUSER1',
-            AlRteUser: 'amladm',
+            AlRteUser: this.selectedUserId,
             AlertId: this.selectedAlert
         };
         const routeData = [];
@@ -165,7 +222,7 @@ export class DetailAlertComponent implements OnInit {
         this.alertService.putroute(routeData)
             .subscribe((res) => {
                 console.log('routeData in res', res);
-                this.showSuccessMsg = true;
+                this.notificationService.showNotification(res.message, 'success')
                 this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
@@ -181,7 +238,7 @@ export class DetailAlertComponent implements OnInit {
         this.alertService.putclose(closeData)
             .subscribe((res) => {
                 console.log('closeData in res', res);
-                this.showSuccessMsg = true;
+                this.notificationService.showNotification(res.message, 'success')
                 this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
@@ -200,7 +257,7 @@ export class DetailAlertComponent implements OnInit {
         this.alertService.putSuppress(SuppressData)
             .subscribe((res) => {
                 console.log('SuppressData in res', res);
-                this.showSuccessMsg = true;
+                this.notificationService.showNotification(res.message, 'success')
                 this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
@@ -208,23 +265,48 @@ export class DetailAlertComponent implements OnInit {
 
     }
     onAddToCaseok() {
-        let caseId = this.selectedCase
+        let caseId = this.case_id
         const data = {
             CsActUser: 'DEMOUSER1',
+            CaseId: this.case_id,
             AlertId: this.selectedAlert,
-            CaseId: this.selectedCase,
         };
+        console.log('caseid data', data)
         const addtocaseData = [];
         addtocaseData.push(data)
-        this.alertService.putaddtocase(caseId,addtocaseData)
+        this.alertService.putaddtocase(caseId, addtocaseData)
             .subscribe((res) => {
                 console.log('add to case Data in res', res);
-                this.showSuccessMsg = true;
+                 this.notificationService.showNotification(res.message, 'success')
                 this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
 
             })
 
     }
+
+    onAddToNewCaseok() {
+        const data = {
+            AlertId: this.selectedAlert,
+            CaseRsn: this.Case_Rsns,
+            CaseType: this.Case_Types,
+            CsActUser: "DEMOUSER1"
+        };
+
+        const addtonewcaseData = [];
+        addtonewcaseData.push(data)
+        this.alertService.putaddtoNewcase(addtonewcaseData)
+            .subscribe((res) => {
+                console.log('add to new caseData in res', res);
+                this.notificationService.showNotification(res.message, 'success')
+                this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
+
+            })
+
+
+    }
+
+
+
     onCloseHandled() {
         this.display = 'none';
         this.displayCommentModal = 'none';

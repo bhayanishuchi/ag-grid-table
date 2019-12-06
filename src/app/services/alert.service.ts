@@ -43,29 +43,45 @@ export class AlertService {
   }
 
   getcheckin(data) {
-    return this.http.put(this.api + '/cinAlerts' , data);
+    return this.http.put<any>(this.api + '/cinAlerts' , data);
+  }
+  getcheckout(data) {
+    return this.http.put<any>(this.api + '/coutAlerts' , data);
   }
 
   putroute(data) {
-    return this.http.put(this.api + '/rteAlerts' , data);
+    return this.http.put<any>(this.api + '/rteAlerts' , data);
   }
   putclose(data) {
-    return this.http.put(this.api + '/closeAlerts' , data);
+    return this.http.put<any>(this.api + '/closeAlerts' , data);
   }
 
   putSuppress(data) {
-    return this.http.put(this.api + '/supAlerts' , data);
+    return this.http.put<any>(this.api + '/supAlerts' , data);
   }
 
   putaddtocase(caseId, data) {
-    return this.http.put(this.api + '/addAlsCas/' + caseId, data);
+    return this.http.put<any>(this.api + '/addAlsCase/' + caseId,  data);
+
+  }
+  putaddtoNewcase(data) {
+    return this.http.put<any>(this.api + '/crtAlCase', data);
   }
 
   getusers() {
     return this.http.get<any>('https://devamlapi.azurewebsites.net/users');
   }
+
   getlovs() {
     return this.http.get<any>(this.api + '/lovs');
+  }
+  getmycase(caseId) {
+    return this.http.get<any>(this.api + '/myCases/' + caseId);
+
+  }
+  getActive(data) {
+    return this.http.put<any>(this.api + '/reoAlerts', data);
+
   }
 
 

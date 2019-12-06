@@ -4,15 +4,34 @@
 
             <div class="row" style="padding: 10px">
                 <h3 class="panel-title">Alert Details: {{selectedAlert}}</h3>
+
+                <div *ngIf="page === 'myalearts'">
                 <div class="pull-right">
                     <button class="btn btn-sm custom-btn" (click)="openCheckInModel()">Check In</button>
+                    <button class="btn btn-sm custom-btn" (click)="openCheckoutModel()">Check Out</button>
                     <button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>
                     <button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>
                     <button class="btn btn-sm custom-btn" (click)="openSuppressModal()">Suppress </button>
-                    <button class="btn btn-sm custom-btn"(click)="openAddToCaseModel()">Add to Case </button>
+                    <button class="btn btn-sm custom-btn" (click)="openAddToCaseModel()">Add to Case </button>
                 </div>
-            </div>
+                </div>
+                <div *ngIf="page === 'availabelealearts'">
+                <div class="pull-right">
+                    <button class="btn btn-sm custom-btn" (click)="openCheckoutModel()">Check Out</button>
+                    <button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>
+                    <button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>
+                    <button class="btn btn-sm custom-btn" (click)="openSuppressModal()">Suppress </button>
+                    <button class="btn btn-sm custom-btn" (click)="openAddToCaseModel()">Add to Case </button>
+                </div>
+                </div>
 
+                <div *ngIf="page === 'suppressedalearts' || page === 'closealearts'">
+                    <div class="pull-right">
+                        <button class="btn btn-sm custom-btn" (click)="openActiveModel()">Active </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="panel-body">
             <div id="exTab2">
@@ -169,6 +188,7 @@
                             <li><a (click)="getSelectedRows('route_alert')">Route Alert</a></li>
                             <li><a (click)="getSelectedRows('add_case')">Add to Case</a></li>
                             <li><a (click)="getSelectedRows('check_selected')">Check in Selected</a></li>
+
                         </ul>
                     </li>
                 </div>
@@ -295,7 +315,7 @@
                         <div style="padding: 10px">
                             <label>Select User id:</label>
                             <select class="form-control" [(ngModel)]="selectedUserId">
-                                <option *ngFor="let userId of selectUserId" [value]="userId.value">{{userId.firstName+' '+userId.lastName}}</option>
+                                <option *ngFor="let userId of selectUserId" [value]="userId.username">{{userId.firstName+' '+userId.lastName}}</option>
                             </select>
                         </div>
                     </div>
@@ -394,7 +414,12 @@
                     <div class="row">
                         <div style="padding: 10px">
                             <label>Select case id:</label>
-                            <input type="text" class="form-control" name="case_id">
+
+                            <select class="form-control" [(ngModel)]="case_id">
+                                <option *ngFor="let mycasedata of selectMycase" [value]="mycasedata.CaseId">
+                                    {{mycasedata.CaseId}}
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -426,20 +451,20 @@
                         </div>
                         <div style="padding: 10px">
                         <label>Case Reason :</label>
-                            <select class="form-control">
-                                <option value="reason1">Case Reason 1</option>
-                                <option value="reason2">Case Suppression Reason 2</option>
-                                <option value="reason3">Case Suppression Reason 3</option>
+                            <select class="form-control" [(ngModel)]="Case_Rsns">
+                                <option *ngFor="let lovesdata of selectloves.CaseRsns" [value]="lovesdata.value">
+                                    {{lovesdata}}
+                                </option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div style="padding: 10px">
                             <label>Case Type :</label>
-                            <select class="form-control">
-                                <option value="reason1">Case Type 1</option>
-                                <option value="reason2">Case Type 2</option>
-                                <option value="reason3">Case Type 3</option>
+                            <select class="form-control" [(ngModel)]="Case_Types">
+                                <option *ngFor="let lovesdata of selectloves.CaseTypes" [value]="lovesdata.value">
+                                    {{lovesdata}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -447,7 +472,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default custom-btn-1" (click)="cancelAddToNewCaseModel()">Cancel Case </button>
 
-                    <button type="button" class="btn btn-default custom-btn-1" (click)="onAddToCaseok()">OK</button>
+                    <button type="button" class="btn btn-default custom-btn-1" (click)="onAddToNewCaseok()">OK</button>
 
                     <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
                        
