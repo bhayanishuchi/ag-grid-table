@@ -259,7 +259,7 @@
         </div>
     </div>
     <div class="backdrop" [ngStyle]="{'display':display}"></div>
-    <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal" id="Upload" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -268,10 +268,10 @@
                 </div>
                 <div class="modal-body">
                     <p *ngIf="showSuccessMsg">File upload Successful. Press OK to close</p>
-                    <input type="file" [(ngModel)]="uploadFile">
+                    <input type="file" (change)="Fileupload($event)" >
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn custom-primary-btn" *ngIf="showSuccessMsg" (click)="onCloseHandled()">Ok</button>
+                    <button type="button" class="btn custom-primary-btn" *ngIf="showSuccessMsg" (click)="okUpload()">Ok</button>
                     <button type="button" class="btn custom-primary-btn" *ngIf="!showSuccessMsg" (click)="uploadFileData()">Upload File</button>
                     <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
                 </div>

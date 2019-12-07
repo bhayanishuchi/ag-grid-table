@@ -27,15 +27,15 @@ export class AlertService {
   }
 
   getDetailAlert(id) {
-    return this.http.get(this.api + '/dtlsAlert/' + id);
+    return this.http.get<any>(this.api + '/dtlsAlert/' + id);
   }
 
   uploadFile(id, data) {
-    return this.http.post(this.api + '/upload/' + id, data);
+    return this.http.post<any>(this.api + '/upload/' + id, data);
   }
 
   addAltComment(data) {
-    return this.http.post(this.api + '/addAlCmnt/', data);
+    return this.http.post<any>(this.api + '/addAlCmnt/', data);
   }
 
   getNewAlert(id) {

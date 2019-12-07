@@ -33,15 +33,14 @@ export class DetailAlertComponent implements OnInit {
     selectloves: any = {};
     AlertSupRsns;
     Suppress_Until;
+    binaryBlob;
     Case_Rsns;
     Case_Types;
     selectMycase;
     case_id;
     page;
-    availabelealearts_page;
-    suppressedalearts_page;
-    close_page;
-  isButtonVisible = true;
+file;
+
     constructor(private activateRoute: ActivatedRoute,
                 private router: Router,
                 private notificationService: NotificationService,
@@ -72,6 +71,7 @@ export class DetailAlertComponent implements OnInit {
                 if (res) {
                     this.detailData = res[0];
                     this.alDetails = res[0].alDetails;
+
                 }
             }, error => {
                 console.log('error', error);
@@ -144,7 +144,7 @@ export class DetailAlertComponent implements OnInit {
     }
     openAddToCaseModel() {
         this.AddToCaseModel = 'block';
-        const caseid= 'DEMOUSER1';
+        const caseid = 'DEMOUSER1';
 
         this.alertService.getmycase(caseid)
             .subscribe((res) => {
@@ -185,18 +185,65 @@ export class DetailAlertComponent implements OnInit {
         this.getloves()
 
     }
+
     uploadFileData() {
-        console.log('upload', this.uploadFile);
+
+        console.log('upload', this.uploadFile, this.file);
         const data = {
             file: this.uploadFile,
             ActUser: 'DEMOUSER1'
         };
-        this.alertService.uploadFile(this.selectedAlert, data)
+        const formdata = new FormData();
+        formdata.append('file', (this.file))
+        formdata.append('ActUser', 'DEMOUSER1')
+        formdata.append('Content-Type', 'multipart/form-data')
+        this.alertService.uploadFile(this.selectedAlert, formdata)
             .subscribe((res) => {
                 console.log('upload res', res)
                 this.showSuccessMsg = true;
+
             })
+        }
+
+    Fileupload(inputElement: any) {
+        const file = inputElement.target.files[0];
+        const reader = new FileReader();
+            const that = this
+            reader.onloadend = function() {
+                const block = (reader.result).split(';');
+                const contentType = block[0].split(':')[1];
+                const realData = block[1].split(',')[1];
+                const blob = that.b64toBlob(realData, contentType);
+                that.file = blob
+            }
+            reader.readAsDataURL(file);
+
     }
+
+    b64toBlob(b64Data, contentType) {
+        contentType = contentType || '';
+        const sliceSize = 512;
+
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    }
+
     addCommentData() {
         console.log('upload', this.commentData);
         const data = {
@@ -209,6 +256,8 @@ export class DetailAlertComponent implements OnInit {
                 console.log('comment res', res);
                 this.displayCommentModal = 'none';
                 this.getDetailAlt(this.selectedAlert);
+                this.notificationService.showNotification(res.message, 'success')
+
             })
     }
     onRouteok() {
@@ -265,7 +314,7 @@ export class DetailAlertComponent implements OnInit {
 
     }
     onAddToCaseok() {
-        let caseId = this.case_id
+        const caseId = this.case_id
         const data = {
             CsActUser: 'DEMOUSER1',
             CaseId: this.case_id,
@@ -283,13 +332,12 @@ export class DetailAlertComponent implements OnInit {
             })
 
     }
-
     onAddToNewCaseok() {
         const data = {
             AlertId: this.selectedAlert,
             CaseRsn: this.Case_Rsns,
             CaseType: this.Case_Types,
-            CsActUser: "DEMOUSER1"
+            CsActUser: 'DEMOUSER1'
         };
 
         const addtonewcaseData = [];
@@ -305,7 +353,10 @@ export class DetailAlertComponent implements OnInit {
 
     }
 
-
+    okUpload() {
+        this.getDetailAlt(this.selectedAlert)
+        this.display = 'none';
+    }
 
     onCloseHandled() {
         this.display = 'none';
