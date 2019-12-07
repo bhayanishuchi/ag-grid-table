@@ -155,7 +155,7 @@ export class DetailAlertComponent implements OnInit {
             })
    }
 
-    openActiveModel(){
+    openActiveModel() {
         const data = {
             AlertId: this.selectedAlert
         };

@@ -110,11 +110,27 @@ export class SuppressedAlertComponent implements OnInit {
         document.getElementById('add_case').style.display = 'block';
         this.openAddToCaseModel()
       } else if (val === 'check_selected') {
-        alert('Selected Alerts Checked In')
+        this.openCheckInModel();
+        // alert('Selected Alerts Checked In')
       }
     }
   }
+  openCheckInModel() {
+    const data = {
+      AlActUser: 'DEMOUSER1',
+      AlertId: this.selectedAlert
+    };
+    const checkInData = [];
+    checkInData.push(data);
+    this.alertService.getcheckin(checkInData)
+        .subscribe((res) => {
+          console.log('check in res', res);
+          this.notificationService.showNotification(res.message, 'success')
 
+          this.router.navigate(['/myAlerts'], {queryParams: {id: this.selectedAlert}});
+
+        })
+  }
   openCloseModal() {
     this.closeModal = 'block';
     this.getloves()
