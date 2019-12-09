@@ -16,6 +16,10 @@ export class DetailCaseComponent implements OnInit {
     historyData: any = {};
     closeModal = 'none';
     CheckInModel = 'none';
+    locationDtlModel = 'none';
+    locationDtlData: any = {};
+    empDtlData: any = {};
+    empDtlModel = 'none';
     displayCommentModal = 'none';
     display = 'none';
     RouteModal = 'none';
@@ -100,6 +104,8 @@ export class DetailCaseComponent implements OnInit {
         this.CheckInModel = 'none';
         this.closeModal = 'none';
         this.RouteModal = 'none';
+        this.locationDtlModel = 'none';
+        this.empDtlModel = 'none';
     }
 
     selectionChangedHandler() {
@@ -165,5 +171,15 @@ export class DetailCaseComponent implements OnInit {
     }
     onTxnNbrClick(val) {
         this.router.navigate(['/dtlAlerts'], {queryParams: {id: val}});
+    }
+
+    onTxnLocClick(data) {
+        this.locationDtlData = data.key.TxnLoc;
+        this.locationDtlModel = 'block';
+    }
+
+    onTxnEmpClick(data) {
+        this.empDtlData = data.key.TxnEmp;
+        this.empDtlModel = 'block';
     }
 }
