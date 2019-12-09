@@ -1,0 +1,505 @@
+<div class="main-content">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="row" style="padding: 10px">
+        <h3 class="panel-title">Case Details: {{selectedCase}}</h3>
+        <div class="pull-right">
+          <button class="btn btn-sm custom-btn" (click)="openCheckInModel()">Check In</button>
+          <button class="btn btn-sm custom-btn" (click)="openCreateSAR()">Create SAR</button>
+          <button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>
+          <button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="panel-body">
+      <div id="exTab2">
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a href="#overview" data-toggle="tab">Overview</a>
+          </li>
+          <li>
+            <a href="#history" data-toggle="tab">History</a>
+          </li>
+          <li>
+            <a href="#documents" data-toggle="tab">Documents</a>
+          </li>
+          <li>
+            <a href="#comments" data-toggle="tab">Comments</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active custom-tab-pan" id="overview">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Case ID: </label> {{historyData.CaseId}}
+                </div>
+                <div class="form-group">
+                  <label>Create By: </label> {{historyData.CaseCrtUser}}
+                </div>
+                <div class="form-group">
+                  <label>Create Date: </label> {{historyData.CaseCrtDate  | date: 'yyyy-MM-dd'}}
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Case Type: </label> {{historyData.CaseType}}
+                </div>
+                <div class="form-group">
+                  <label>Status:</label> {{historyData.CaseStatus}}
+                </div>
+                <div class="form-group">
+                  <label>Reason:</label> {{historyData.CaseRsn}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane custom-tab-pan" id="history">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Action</th>
+                <th>Action Date</th>
+                <th>Action User</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let action of historyData.CsActions">
+                <td>{{action.ActDesc}}</td>
+                <td>{{action.ActDate | date: 'yyyy-MM-dd'}}</td>
+                <td>{{action.ActUser}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane custom-tab-pan" id="documents">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Action</th>
+                <th>Action Date</th>
+                <th>Action User</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let action of detailData.AlDocuments">
+                <td>{{action.DocDate | date: 'yyyy-MM-dd'}}</td>
+                <td>{{action.DocUser}}</td>
+                <td>{{action.FileName}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="">
+              <button (click)="openModal()">Add <i class="fa fa-plus-circle"></i></button>
+            </div>
+          </div>
+          <div class="tab-pane custom-tab-pan" id="comments">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>Text</th>
+                <th>Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let action of detailData.AlComments">
+                <td>{{action.CommentTxt}}</td>
+                <td>{{action.CommentDate | date: 'yyyy-MM-dd'}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="">
+              <button (click)="openCommentModal()">Add <i class="fa fa-plus-circle"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="row" style="padding: 10px">
+        <h3 class="panel-title">Alert Details</h3>
+      </div>
+
+    </div>
+    <div class="panel-body">
+      <div>
+        <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">
+          <li style="list-style: none" class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle btn btn-sm" style="color: black; border-color: black;" data-toggle="dropdown">
+              <i class="fa fa-bars"></i>
+            </a>
+            <ul class="dropdown-menu" style="right: 0; left: auto;">
+              <li><a (click)="getSelectedRows('close_alert')">Close Alert</a></li>
+              <li><a (click)="getSelectedRows('route_alert')">Route Alert</a></li>
+              <li><a (click)="getSelectedRows('add_case')">Add to Case</a></li>
+              <li><a (click)="getSelectedRows('check_selected')">Check in Selected</a></li>
+            </ul>
+          </li>
+        </div>
+        <dx-data-grid
+                id="gridContainer"
+                [dataSource]="alDetails"
+                [showBorders]="true"
+                [(selectedRowKeys)]="selectedRows"
+                (onSelectionChanged)="selectionChangedHandler()">
+
+          <dxo-column-chooser #columnChooser
+                              [enabled]="true"
+                              [mode]="columnChooserModes">
+          </dxo-column-chooser>
+          <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+          <dxo-filter-row
+                  [visible]="showFilterRow"
+                  [applyFilter]="currentFilter"></dxo-filter-row>
+          <dxo-selection
+                  [selectAllMode]="allMode"
+                  [showCheckBoxesMode]="checkBoxesMode"
+                  mode="multiple"
+          ></dxo-selection>
+          <dxi-column
+                  cellTemplate="cellTemplate1"
+                  dataField="AlertId"
+                  caption="Alert ID">
+          </dxi-column>
+          <div *dxTemplate="let cell of 'cellTemplate1'">
+            <a class="dx-link" (click)="onTxnNbrClick(cell.text)">{{cell.text}}</a>
+          </div>
+          <dxi-column
+                  dataField="AlDesc"
+                  caption="Description">
+          </dxi-column>
+          <dxi-column
+                  dataField="Scenario"
+                  caption="Scenario">
+          </dxi-column>
+          <dxi-column
+                  dataField="AlStatus"
+                  caption="Status">
+          </dxi-column>
+          <dxi-column
+                  dataField="AlTxnDate"
+                  caption="Transaction Date"
+                  dataType="date"
+                  format='yyyy-MM-dd'>
+          </dxi-column>
+          <dxi-column
+                  dataField="AlCrtDate"
+                  caption="Create Date"
+                  dataType="date"
+                  format='yyyy-MM-dd'>
+          </dxi-column>
+          <dxi-column
+                  dataField="AlUser"
+                  caption="Owner">
+          </dxi-column>
+          <dxi-column
+                  dataField="AlCrtUser"
+                  caption="Create User">
+          </dxi-column>
+          <dxo-paging [pageSize]="5"></dxo-paging>
+          <dxo-pager
+                  [showPageSizeSelector]="true"
+                  [allowedPageSizes]="[5, 10, 20]"
+                  [showInfo]="true">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="row" style="padding: 10px">
+        <h3 class="panel-title">Transaction Details</h3>
+      </div>
+
+    </div>
+    <div class="panel-body">
+      <div>
+        <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">
+          <li style="list-style: none" class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle btn btn-sm" style="color: black; border-color: black;" data-toggle="dropdown">
+              <i class="fa fa-bars"></i>
+            </a>
+            <ul class="dropdown-menu" style="right: 0; left: auto;">
+              <li><a (click)="getSelectedRows('close_alert')">Close Alert</a></li>
+              <li><a (click)="getSelectedRows('route_alert')">Route Alert</a></li>
+              <li><a (click)="getSelectedRows('add_case')">Add to Case</a></li>
+              <li><a (click)="getSelectedRows('check_selected')">Check in Selected</a></li>
+            </ul>
+          </li>
+        </div>
+        <dx-data-grid
+                id="gridContainer1"
+                [dataSource]="txnDetails"
+                [showBorders]="true"
+                [(selectedRowKeys)]="selectedRows"
+                (onSelectionChanged)="selectionChangedHandler()">
+
+          <dxo-column-chooser #columnChooser
+                              [enabled]="true"
+                              [mode]="columnChooserModes">
+          </dxo-column-chooser>
+          <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+          <dxo-filter-row
+                  [visible]="showFilterRow"
+                  [applyFilter]="currentFilter"></dxo-filter-row>
+          <dxo-selection
+                  [selectAllMode]="allMode"
+                  [showCheckBoxesMode]="checkBoxesMode"
+                  mode="multiple"
+          ></dxo-selection>
+          <dxi-column
+                  dataField="TxnNbr"
+                  caption="Ref Number">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnDate"
+                  caption="Date"
+                  dataType="date"
+                  format='yyyy-MM-dd'>
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnTypes.Product"
+                  caption="Product">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnAmts.PrdAmt"
+                  caption="Product Amt">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnTypes.Tender"
+                  caption="Tender">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnAmts.TndrAmt"
+                  caption="Tender Amt">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnTypes.Fee"
+                  caption="Fee">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnAmts.FeeAmt"
+                  caption="Fee Amt">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnCncy.TgtTxnCy"
+                  caption="Currency">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnLoc.LocNbr"
+                  caption="Location Nbr">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnEmp.EmpNbr"
+                  caption="Employee Nbr">
+          </dxi-column>
+          <dxo-paging [pageSize]="5"></dxo-paging>
+          <dxo-pager
+                  [showPageSizeSelector]="true"
+                  [allowedPageSizes]="[5, 10, 20]"
+                  [showInfo]="true">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <div class="row" style="padding: 10px">
+        <h3 class="panel-title">Entity Details</h3>
+      </div>
+
+    </div>
+    <div class="panel-body">
+      <div>
+        <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">
+          <li style="list-style: none" class="nav-item dropdown">
+            <a href="#" class="dropdown-toggle btn btn-sm" style="color: black; border-color: black;" data-toggle="dropdown">
+              <i class="fa fa-bars"></i>
+            </a>
+            <ul class="dropdown-menu" style="right: 0; left: auto;">
+              <li><a (click)="getSelectedRows('close_alert')">Close Alert</a></li>
+              <li><a (click)="getSelectedRows('route_alert')">Route Alert</a></li>
+              <li><a (click)="getSelectedRows('add_case')">Add to Case</a></li>
+              <li><a (click)="getSelectedRows('check_selected')">Check in Selected</a></li>
+            </ul>
+          </li>
+        </div>
+        <dx-data-grid
+                id="gridContainer2"
+                [dataSource]="entDetails"
+                [showBorders]="true"
+                [(selectedRowKeys)]="selectedRows"
+                (onSelectionChanged)="selectionChangedHandler()">
+
+          <dxo-column-chooser #columnChooser
+                              [enabled]="true"
+                              [mode]="columnChooserModes">
+          </dxo-column-chooser>
+          <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+          <dxo-filter-row
+                  [visible]="showFilterRow"
+                  [applyFilter]="currentFilter"></dxo-filter-row>
+          <dxo-selection
+                  [selectAllMode]="allMode"
+                  [showCheckBoxesMode]="checkBoxesMode"
+                  mode="multiple"
+          ></dxo-selection>
+          <dxi-column
+                  dataField="EtyNbr"
+                  caption="Number">
+          </dxi-column>
+          <dxi-column
+                  dataField="Alerts[0]"
+                  caption="Alert ID">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyName"
+                  caption="Name">
+          </dxi-column>
+          <dxi-column
+                  dataField="TxnEtyType"
+                  caption="Type">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyAddr.Addr1"
+                  caption="Address 1">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyAddr.Addr2"
+                  caption="Address 2">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyAddr.City"
+                  caption="City">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyAddr.State"
+                  caption="State">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyAddr.Country"
+                  caption="Country">
+          </dxi-column>
+          <dxi-column
+                  dataField="EtyAddr.Zip"
+                  caption="Zip">
+          </dxi-column>
+          <dxo-paging [pageSize]="5"></dxo-paging>
+          <dxo-pager
+                  [showPageSizeSelector]="true"
+                  [allowedPageSizes]="[5, 10, 20]"
+                  [showInfo]="true">
+          </dxo-pager>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+  <div class="backdrop" [ngStyle]="{'display':display}"></div>
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+           <h3 class="modal-title custom-title">Select Document</h3>
+        </div>
+        <div class="modal-body">
+          <p *ngIf="showSuccessMsg">File upload Successful. Press OK to close</p>
+          <input type="file" [(ngModel)]="uploadFile">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn custom-primary-btn" *ngIf="showSuccessMsg" (click)="onCloseHandled()">Ok</button>
+          <button type="button" class="btn custom-primary-btn" *ngIf="!showSuccessMsg" (click)="uploadFileData()">Upload File</button>
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <div class="backdrop" [ngStyle]="{'display':displayCommentModal}"></div>
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayCommentModal}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title custom-title">Add Comments</h3>
+        </div> 
+        <div class="modal-body">     
+          <div class="form-group">
+            <label>Comment:</label>
+            <textarea rows="2" class="form-control" [(ngModel)]="commentData"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">     
+          <button type="button" class="btn btn-info" (click)="addCommentData()">Ok</button>
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <div class="backdrop" [ngStyle]="{'display':RouteModal}"></div>
+  <div class="modal backdrop" id="Route" tabindex="-1" role="dialog" [ngStyle]="{'display':RouteModal}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                  aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title">Route Alert</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div style="padding: 10px">
+              <label>Select User id:</label>
+              <select class="form-control">
+                <option value="reason1">Alert Close Reason 1</option>
+                <option value="reason2">Alert Close Reason 2</option>
+                <option value="reason3">Alert Close Reason 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onRouteok()">OK</button>
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <div class="backdrop" [ngStyle]="{'display':closeModal}"></div>
+  <div class="modal backdrop" id="close_popup" tabindex="-1" role="dialog" [ngStyle]="{'display':closeModal}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
+                  aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title">Close Alert</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div style="padding: 10px">
+              <label>Close Reason:</label>
+              <select class="form-control">
+                <option value="reason1">Alert Close Reason 1</option>
+                <option value="reason2">Alert Close Reason 2</option>
+                <option value="reason3">Alert Close Reason 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="oncloseok()">OK</button>
+
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+</div>

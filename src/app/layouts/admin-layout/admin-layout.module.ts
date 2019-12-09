@@ -20,6 +20,12 @@ import {ClosedAlertComponent} from '../../closed-alert/closed-alert.component';
 import {SuppressedAlertComponent} from '../../suppressed-alert/suppressed-alert.component';
 import {NewAlertComponent} from '../../new-alert/new-alert.component';
 import {DetailAlertComponent} from '../../detail-alert/detail-alert.component';
+import { MyCasesComponent } from '../../cases/my-cases/my-cases.component';
+import { DetailCaseComponent } from '../../cases/detail-case/detail-case.component';
+import { SarDetailComponent } from '../../cases/sar-detail/sar-detail.component';
+import { AvailableCasesComponent } from '../../cases/available-cases/available-cases.component';
+import { FiledCasesComponent } from '../../cases/filed-cases/filed-cases.component';
+import { ClosedCasesComponent } from '../../cases/closed-cases/closed-cases.component';
 
 @NgModule({
   imports: [
@@ -42,7 +48,13 @@ import {DetailAlertComponent} from '../../detail-alert/detail-alert.component';
     ClosedAlertComponent,
     SuppressedAlertComponent,
     NewAlertComponent,
-    DetailAlertComponent
+    DetailAlertComponent,
+    MyCasesComponent,
+    DetailCaseComponent,
+    SarDetailComponent,
+    AvailableCasesComponent,
+    FiledCasesComponent,
+    ClosedCasesComponent,
   ],
   providers: [Service]
 })

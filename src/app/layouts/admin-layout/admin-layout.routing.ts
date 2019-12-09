@@ -10,6 +10,12 @@ import {ClosedAlertComponent} from '../../closed-alert/closed-alert.component';
 import {SuppressedAlertComponent} from '../../suppressed-alert/suppressed-alert.component';
 import {NewAlertComponent} from '../../new-alert/new-alert.component';
 import {DetailAlertComponent} from '../../detail-alert/detail-alert.component';
+import { MyCasesComponent } from '../../cases/my-cases/my-cases.component';
+import { DetailCaseComponent } from '../../cases/detail-case/detail-case.component';
+import {SarDetailComponent} from '../../cases/sar-detail/sar-detail.component';
+import {AvailableCasesComponent} from '../../cases/available-cases/available-cases.component';
+import {FiledCasesComponent} from '../../cases/filed-cases/filed-cases.component';
+import {ClosedCasesComponent} from '../../cases/closed-cases/closed-cases.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -23,5 +29,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'suppressedAlerts',      component: SuppressedAlertComponent },
     { path: 'newAlerts',      component: NewAlertComponent },
     { path: 'dtlAlerts',      component: DetailAlertComponent },
+    { path: 'myCases',      component: MyCasesComponent },
+    { path: 'dtlCases',      component: DetailCaseComponent },
+    { path: 'sarCases',      component: SarDetailComponent },
+    { path: 'availCases',      component: AvailableCasesComponent },
+    { path: 'filedCases',      component: FiledCasesComponent },
+    { path: 'closedCases',      component: ClosedCasesComponent },
 
 ];

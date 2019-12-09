@@ -32,7 +32,7 @@ import {JwtInterceptor} from './_helpers/jwt.interceptor';
     ],
     declarations: [
         AppComponent,
-        AdminLayoutComponent
+        AdminLayoutComponent,
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

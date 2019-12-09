@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="header">
-            <h4 class="title">Available Alerts</h4>
+            <h4 class="title">Closed Cases</h4>
             <!--                        <div class="row">-->
             <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">
               <li style="list-style: none" class="nav-item dropdown">
@@ -43,40 +43,30 @@
                       mode="multiple"
               ></dxo-selection>
               <dxi-column
-                      dataField="AlertId"
-                      caption="Alert ID">
+                      dataField="CaseId"
+                      caption="Case ID">
               </dxi-column>
               <dxi-column
-                      dataField="AlDesc"
-                      caption="Description">
+                      dataField="CaseType"
+                      caption="Case Type">
               </dxi-column>
               <dxi-column
-                      dataField="Scenario"
-                      caption="Scenario">
-              </dxi-column>
-              <dxi-column
-                      dataField="AlStatus"
+                      dataField="CaseStatus"
                       caption="Status">
               </dxi-column>
               <dxi-column
-                      dataField="AlTxnDate"
-                      caption="Transaction Date"
-                      dataType="date"
-                      format='yyyy-MM-dd'>
-              </dxi-column>
-              <dxi-column
-                      dataField="AlCrtDate"
-                      caption="Create Date"
-                      dataType="date"
-                      format='yyyy-MM-dd'>
-              </dxi-column>
-              <dxi-column
-                      dataField="AlUser"
-                      caption="Owner">
-              </dxi-column>
-              <dxi-column
-                      dataField="AlCrtUser"
+                      dataField="CaseCrtUser"
                       caption="Create User">
+              </dxi-column>
+              <dxi-column
+                      dataField="CaseRsn"
+                      caption="Case Reason">
+              </dxi-column>
+              <dxi-column
+                      dataField="CaseCrtDate"
+                      caption="Case Create Date"
+                      dataType="date"
+                      format='yyyy-MM-dd'>
               </dxi-column>
               <dxo-paging [pageSize]="5"></dxo-paging>
               <dxo-pager
@@ -92,9 +82,6 @@
     </div>
   </div>
 
-
-
-
   <div class="modal backdrop" id="close_popup" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -107,19 +94,15 @@
           <div class="row">
             <div style="padding: 10px">
               <label>Close Reason:</label>
-              <select class="form-control" [(ngModel)]="AlertSupRsns">
-                <option *ngFor="let lovesdata of selectloves.AlertClsRsns" [value]="lovesdata.value">
-                  {{lovesdata}}
-                </option>
+              <select class="form-control">
+                <option value="reason1">Alert Close Reason 1</option>
+                <option value="reason2">Alert Close Reason 2</option>
+                <option value="reason3">Alert Close Reason 3</option>
               </select>
-
-
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default custom-btn-1" (click)="oncloseok()">OK</button>
-
           <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
              
         </div>
@@ -139,15 +122,15 @@
           <div class="row">
             <div style="padding: 10px">
               <label>Select User id:</label>
-              <select class="form-control" [(ngModel)]="selectedUserId">
-                <option *ngFor="let userId of selectUserId" [value]="userId.username">{{userId.firstName+' '+userId.lastName}}</option>
+              <select class="form-control">
+                <option value="reason1">Alert Close Reason 1</option>
+                <option value="reason2">Alert Close Reason 2</option>
+                <option value="reason3">Alert Close Reason 3</option>
               </select>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default custom-btn-1" (click)="onRouteok()">OK</button>
-
           <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
              
         </div>
@@ -155,7 +138,7 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal !-->
 
-  <div class="modal backdrop" id="add_case" tabindex="-1" role="dialog" [ngStyle]="{'display':AddToCaseModel}">
+  <div class="modal backdrop" id="add_case" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header" style="height: 70px;">
@@ -167,72 +150,15 @@
           <div class="row">
             <div style="padding: 10px">
               <label>Select case id:</label>
-
-              <select class="form-control" [(ngModel)]="case_id">
-                <option *ngFor="let mycasedata of selectMycase" [value]="mycasedata.CaseId">
-                  {{mycasedata.CaseId}}
-                </option>
-              </select>
+              <input type="text" class="form-control" name="case_id">
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default custom-btn-1" (click)="openAddToNewCaseModel()">Add to New Case </button>
-
-          <button type="button" class="btn btn-default custom-btn-1" (click)="onAddToCaseok()">OK</button>
-
           <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
              
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal !-->
-
-  <div class="modal backdrop" id="addtoNewcase" tabindex="-1" role="dialog" [ngStyle]="{'display':AddToNewCaseModel}">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header" style="height: 70px;">
-          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span
-                  aria-hidden="true">&times;</span></button>
-                 <h4 class="modal-title">Select a Case</h4>   
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div style="padding: 10px">
-              Select below fields to create a new case
-            </div>
-            <div style="padding: 10px">
-              <label>Case Reason :</label>
-              <select class="form-control" [(ngModel)]="Case_Rsns">
-                <option *ngFor="let lovesdata of selectloves.CaseRsns" [value]="lovesdata.value">
-                  {{lovesdata}}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-            <div style="padding: 10px">
-              <label>Case Type :</label>
-              <select class="form-control" [(ngModel)]="Case_Types">
-                <option *ngFor="let lovesdata of selectloves.CaseTypes" [value]="lovesdata.value">
-                  {{lovesdata}}
-                </option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default custom-btn-1" (click)="cancelAddToNewCaseModel()">Cancel Case </button>
-
-          <button type="button" class="btn btn-default custom-btn-1" (click)="onAddToNewCaseok()">OK</button>
-
-          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
-             
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal !-->
-
-
-
 </div>

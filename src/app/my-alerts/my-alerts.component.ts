@@ -76,7 +76,8 @@ export class MyAlertsComponent implements OnInit {
         console.log('selected row', this.selectedRows, this.selectedRows.length);
         if (this.selectedRows.length === 0) {
             alert('Select any row');
-        } else {
+        }
+        else {
             if (val === 'close_alert') {
                 document.getElementById('close_popup').style.display = 'block';
                 this.openCloseModal();
@@ -126,7 +127,7 @@ export class MyAlertsComponent implements OnInit {
     }
     openAddToCaseModel() {
         this.AddToCaseModel = 'block';
-        const caseid= 'DEMOUSER1';
+        const caseid = 'DEMOUSER1';
 
         this.alertService.getmycase(caseid)
             .subscribe((res) => {

@@ -1,0 +1,1235 @@
+<div class="main-content">
+<div class="panel panel-primary">
+    <div class="panel-heading ">
+      <div class="row">
+        <div class="col-lg-7">
+          <h4 class="white"> Suspicious Acitivity Report</h4>
+        </div>
+        <div class="col-lg-5 ">
+          <div class="pull-right">
+            <button class="btn btn-sm custom-btn" ng-show="regData.RegStatus =='DRAFT' || regData.RegStatus =='INPROGRESS'"
+                    type="button" (click)="saveSARDetails();">Save</button>
+            <button class="btn btn-sm custom-btn" ng-show="regData.RegStatus =='INPROGRESS'" type="button"
+                    (click)="checkInCase();">Submit</button>
+            <!--<button ng-show="caseDetail.casedtl[0].CaseStatus =='ACTIVE' && caseDetail.casedtl[0].CaseUser!=null" type="button" class="btn btn-default btn-sm"
+            (click)="checkInCase();">Create SAR</button>
+          <button ng-show="caseDetail.casedtl[0].CaseStatus =='ACTIVE' && caseDetail.casedtl[0].CaseUser!=null" type="button" class="btn btn-default btn-sm" (click)="openModal('route');">Route</button>
+          <button ng-show="caseDetail.casedtl[0].CaseStatus =='CLOSED'" type="button" class="btn btn-default btn-sm" (click)="reOpenCase();">Activate</button>
+          <button ng-show="caseDetail.casedtl[0].CaseStatus =='ACTIVE' && caseDetail.casedtl[0].CaseUser!=null" type="button" class="btn btn-default btn-sm" (click)="openModal('close');">Close</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div id="exTab2">
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a href="#Home" data-toggle="tab">Home</a>
+          </li>
+          <li>
+            <a href="#finInstContInfo" data-toggle="tab">Financial Institutions Contact Information</a>
+          </li>
+          <li>
+            <a href="#finInstwhereActOcc" data-toggle="tab">Financial Institution where activity occured</a>
+          </li>
+          <li>
+            <a href="#subInfo" data-toggle="tab">Subject Information</a>
+          </li>
+          <li>
+            <a href="#suspActInfo" data-toggle="tab">Suspicious Activity Information</a>
+          </li>
+          <li>
+            <a href="#Narrative" data-toggle="tab">Narrative</a>
+          </li>
+        </ul>
+        <div class="tab-content" *ngIf="showPage">
+          <div class="tab-pane active custom-tab-pan" id="Home">
+            <form class="form-horizontal">
+              <div class="form-group row">
+                <label for="RegDesc" class="col-lg-3 control-label">Report ID</label>
+                <div class="col-lg-5">
+                  {{reggrid.RegId}}
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="RegDesc" class="col-lg-3 control-label">Report Type</label>
+                <div class="col-lg-5">
+                  {{reggrid.RegType}}
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="RegDesc" class="col-lg-3 control-label">Report Description</label>
+                <div class="col-lg-5">
+                  <input type="text" [(ngModel)]="reggrid.RegTypeDesc" class="form-control" id="RegTypeDesc" name="RegTypeDesc"
+                         value="">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="RegDesc" class="col-lg-3 control-label">Report Status</label>
+                <div class="col-lg-5">
+                  <select class="form-control" [(ngModel)]="reggrid.RegStatus" id="RegStatus" name="RegStatus">
+                    <option value="DRAFT">Draft</option>
+                    <option value="INPROGRESS">InProgress</option>
+                    <option value="FILED">Filed</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="RegDesc" class="col-lg-3 control-label">Parent ID</label>
+                <div class="col-lg-5">
+                  {{reggrid.RegParentId }}
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="RegDesc" class="col-lg-3 control-label">Filing Name</label>
+                <div class="col-lg-5">
+                  <input type="text" [(ngModel)]="reggrid.RegDesc" class="form-control" id="RegDesc" name="RegDesc" value="">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="RegFilType" class="col-lg-3 control-label">Type of Filing </label>
+                <div class="col-lg-5">
+                  <select class="form-control" [(ngModel)]="reggrid.RegFilType" id="RegFilType" name="RegFilType">
+                    <option>Initial Report</option>
+                    <option>Correct/Amend Report</option>
+                    <option>Continuing Activity Report</option>
+                    <option>Joint Report</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-lg-3 control-label">Prior Report Document Control Number/BSA
+                  Identifer</label>
+                <div class="col-lg-5">
+                  <input type="text" [(ngModel)]="reggrid.RegDCN" class="form-control" id="RegDCN" name="RegDCN"
+                         value="1234232">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-lg-3 control-label">Attachment</label>
+                <div class="col-lg-5">
+                  <button type="button" class="btn btn-default btn-sm" (click)="openModal('uploadDoc');">Add <span
+                          class="tab-space"><i class="fa fa-plus-circle" aria-hidden="true"></i></span></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane custom-tab-pan" id="finInstContInfo">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Type of Financial Institution</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.FIType}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Primary Federal Regulator</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.PrimRegulator}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Filer Name</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.FilerName}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">TIN</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.TINId}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">TIN Type</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.TINType}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Type of Securities and Future institutions or individual filing this report</label>
+                  <div class="col-lg-6">
+                    <select class="form-control" [(ngModel)]="regData.fii.FIContactInfo.FIInfo.TypeOfSec" id="TypeOfSec" name="TypeOfSec">
+                      <option>Clearing Broker-Securities</option>
+                      <option>Introducing Broker-Securities</option>
+                      <option>SRO Securities</option>
+                      <option>CPO/CTA</option>
+                      <option>Investment Adviser</option>
+                      <option>Subsidiary of Financial/Bank holding company</option>
+                      <option>Futures Commision merchant</option>
+                      <option>Investment Company</option>
+                      <option>Other</option>
+                      <option>Holding Company</option>
+                      <option>Retail Foreign Exhange dealer</option>
+                      <option>Introducing Broker Commodites</option>
+                      <option>SRO Futures</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Financial Institution Identification
+                    Type</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.FIIdType}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Number</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.FIIId}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Address</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.Addr}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">City</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.City}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">State</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.State}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">ZIP/Postal Code</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.Zip}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Country</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.Cntry}}
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Alternate name, e.g., AKA -individual or trade
+                    name,DBA Entity</label>
+                  <div class="col-lg-6">
+                    {{regData.fii.FIContactInfo.FIInfo.AltName}}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Internal Control/File number</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.ICN" class="form-control"
+                           id="ICN" name="ICN" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">LE Contact agency</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.CntctAgency" class="form-control"
+                           id="CntctAgency" name="CntctAgency" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">LE Contact Name</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.CntctName" class="form-control"
+                           id="CntctName" name="CntctName" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">LE Contact Phone number(include area
+                    code)</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.CntctPhone.Nbr"
+                           class="form-control" id="Nbr" name="Nbr" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">LE Contact Date</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.CntctDate" class="form-control"
+                           id="CntctDate" name="CntctDate" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Filling Institution contact office</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.FICntctOffice"
+                           class="form-control" id="FICntctOffice" name="FICntctOffice" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Filling Institution contact phone number
+                    (include
+                    area code)</label>
+                  <div class="col-lg-6">
+                    <input type="text" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.FICntctPhone.Nbr"
+                           class="form-control" id="FICntctPhoneNbr" name="FICntctPhoneNbr" value="">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-lg-6 control-label">Date Filed</label>
+                  <div class="col-lg-6">
+                    <input type="date" [(ngModel)]="regData.fii.FIContactInfo.LawEnforce.filedDate" class="form-control"
+                           id="filedDate" name="filedDate" value="" pattern="MM/dd/YYYY">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane custom-tab-pan" id="finInstwhereActOcc">
+            <div class="form-group row">
+                <dx-data-grid
+                        id="gridContainer"
+                        [dataSource]="FIActivityLoc"
+                        [showBorders]="true">
+                    <!--<dxo-column-chooser #columnChooser-->
+                                        <!--[enabled]="true"-->
+                                        <!--[mode]="columnChooserModesopenCheckInModel">-->
+                    <!--</dxo-column-chooser>-->
+                    <!--<dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>-->
+                    <dxo-filter-row
+                            [visible]="showFilterRow"
+                            [applyFilter]="currentFilter"></dxo-filter-row>
+                    <dxo-selection
+                            [selectAllMode]="allMode"
+                            [showCheckBoxesMode]="checkBoxesMode"
+                            mode="multiple"
+                    ></dxo-selection>
+                    <dxi-column
+                            dataField="Number"
+                            caption="Number">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Addr"
+                            caption="Address">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="City"
+                            caption="City">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="State"
+                            caption="State">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Zip"
+                            caption="Zip">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Cntry"
+                            caption="Country">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="CaseCrtDate"
+                            caption="Delete">
+                    </dxi-column>
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager
+                            [showPageSizeSelector]="true"
+                            [allowedPageSizes]="[5, 10, 20]"
+                            [showInfo]="true">
+                    </dxo-pager>
+                </dx-data-grid>
+            </div>
+          </div>
+          <div class="tab-pane custom-tab-pan" id="subInfo">
+            <div class="form-group row">
+                <dx-data-grid
+                        id="gridSubInfoContainer"
+                        [dataSource]="regData.SubjectInfo"
+                        [showBorders]="true">
+                    <!--<dxo-column-chooser #columnChooser-->
+                    <!--[enabled]="true"-->
+                    <!--[mode]="columnChooserModesopenCheckInModel">-->
+                    <!--</dxo-column-chooser>-->
+                    <!--<dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>-->
+                    <dxo-filter-row
+                            [visible]="showFilterRow"
+                            [applyFilter]="currentFilter"></dxo-filter-row>
+                    <dxo-selection
+                            [selectAllMode]="allMode"
+                            [showCheckBoxesMode]="checkBoxesMode"
+                            mode="multiple"
+                    ></dxo-selection>
+                    <dxi-column
+                            dataField="EtyFName"
+                            caption="First Name">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="EtyLName"
+                            caption="Last Name">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Occu"
+                            caption="Gender">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Occu"
+                            caption="Ind/Org">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="SubjectRole"
+                            caption="Role">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="SubRelStatus"
+                            caption="Status">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Occu"
+                            caption="Occupation">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Occu"
+                            caption="TIN Type">
+                    </dxi-column>
+                    <dxi-column
+                            dataField="Occu"
+                            caption="TIN">
+                    </dxi-column>
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-pager
+                            [showPageSizeSelector]="true"
+                            [allowedPageSizes]="[5, 10, 20]"
+                            [showInfo]="true">
+                    </dxo-pager>
+                </dx-data-grid>
+            </div>
+          </div>
+          <!--<div class="tab-pane custom-tab-pan" id="suspActInfo">
+            <label>Suspiciuos Activity information</label>
+
+            <div class="form-group row">
+              <div class="form-inline col-lg-6">
+                <div class="col-lg-6"> 29 Amount involved in the report </div>
+                <div class="col-lg-6">
+                  <select class="form-control" [(ngModel)]="regDat" id="regDat" name="regDat">
+                    <option>Amount</option>
+                    <option>Amount Unknown</option>
+                    <option>No amount involved</option>
+                  </select> </div>Report ID
+              </div>
+              <div class="form-inline col-lg-6">
+                <label>Amount</label>
+                <div class="input-group">
+                  <div class="input-group-addon">$</div>
+                  <input type="text" [(ngModel)]="regData.TotAmt" class="form-control"
+                         id="exampleInputAmount" name="exampleInputAmount" placeholder="Amount">
+                  <div class="input-group-addon">.00</div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-5 control-label">30 Date or date range of suspicious activity for
+                this report</label>
+            </div>
+            <div class="form-group row">
+              <div class="form-group col-lg-2">
+                From
+              </div>
+              <div class="form-group col-lg-2">
+                <input type="date" [(ngModel)]="regData.TxnFromDt" class="form-control" id="TxnFromDt" name="TxnFromDt"
+                       value="" pattern="MM/dd/YYYY">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="form-group col-lg-2">
+                To
+              </div>
+              <div class="form-group col-lg-2">
+                <input type="date" [(ngModel)]="regData.TxnToDt" class="form-control" id="TxnToDt" name="TxnToDt"
+                       value="" pattern="MM/dd/YYYY">
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-3 control-label">32 Structuring</label>
+            </div>
+
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32a" name="s32a" value="true" />
+                  <span>a. Alters transaction to avoid BSA record keeping requirement</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32e" name="s32e" value="true" />
+                  <span>e. Multiple transactions below CTR threshold</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32b" name="s32b" value="true" />
+                  <span>b. Alters transaction to avoid CTR requirement</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32f" name="s32f" value="true" />
+                  <span>f. Suspicious enquiry by customer regarding BSA reporting or record keeping requirements.</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32c" name="s32c" value="true" />
+                  <span>c. Customer cancels transaction to avoid BSA reporting and record keeping requirements.</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32z" name="s32z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.Structuring.s32ztext" name="s32ztext" class="form-control"
+                         id="s32ztext" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Structuring.s32d" name="s32d" value="true" />
+                  <span>d. Multiple transactions below BSA recordkeeping threshold</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-3 control-label">33 Terroist Financing</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.TerrFinan.t33a" name="t33a" value="true" />
+                  <span>a. Known or Suspected Terroist/terrorist Organization</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.TerrFinan.t33z" name="t33z"  value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.TerrFinan.t33ztext" name="t33ztext" class="form-control"
+                         id="t33ztext" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-3 control-label">34 Fraud (Type)</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34a" name="f34a" value="true" />
+                  <span>a. ACH</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34e" name="f34e" value="true" />
+                  <span>e. Customer Loan</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34i" name="f34i" value="true" />
+                  <span>i. Mass marketing</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34m" name="f34m" value="true" />
+                  <span>m. Wire</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34b" name="f34b" value="true" />
+                  <span>b. Advance Fee</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34f" name="f34f" value="true" />
+                  <span>f. Credit/Debit card</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34j" name="f34j" value="true" />
+                  <span>j. Ponzi Scheme</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34z" name="f34z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.Fraud.f34ztext" name="f34ztext" class="form-control"
+                         id="f34ztext" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34c" name="f34c" value="true" />
+                  <span>c. Business Loan</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34g" name="f34g" value="true" />
+                  <span>g. Health care</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34k" name="f34k" value="true" />
+                  <span>k. Pyramid Scheme</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34d" name="f34d" value="true" />
+                  <span>d. Check</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34h" name="f34h" value="true" />
+                  <span>h. Mail</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Fraud.f34l" name="f341" value="true" />
+                  <span>l. Securities Fraud</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-3 control-label">35 Gaming Activities</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Gaming.g35a" name="g35a"  value="true" />
+                  <span>a. Chip Walking</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Gaming.g35b" name="g35b" value="true" />
+                  <span>b. Minimal Gaming with Large Transactions</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Gaming.g35c" name="g35c" value="true" />
+                  <span>c. Suspicious use of Counter Checks or markers</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Gaming.g35d" name="g35d" value="true" />
+                  <span>d. Unnown source of Chips</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Gaming.g35z" name="g35z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.Gaming.g35ztext" name="g35ztext" class="form-control"
+                         id="g35ztext" value="">
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+
+              </fieldset>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-3 control-label">36 Money Laundering</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36a" name="m36a" value="true" />
+                  <span>a. Exchange small bills for large Bills or vice versa</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36g" name="m36g" value="true" />
+                  <span>g. Suspicious receipt of Government payments/benefits</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36b" name="m36b" value="true" />
+                  <span>b. Suspicion concerning the physical
+                    condition of funds</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36h" name="m36h" value="true" />
+                  <span>h. Suspicious use of multiple accounts</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36c" name="m36c" value="true" />
+                  <span>c. Suspicion concerning the source of
+                    funds</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36i" name="m36i" value="true" />
+                  <span>i. Suspicious use of noncash monetary
+                    instruments</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36d" name="m36d" value="true" />
+                  <span>d. Suspicious designation of
+                    beneficieries,assignees or joint owners</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36j" name="m36j" value="true" />
+                  <span>j. Suspicious use of third party
+                    transactors (Straw-man)</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36e" name="m36e" value="true" />
+                  <span>e. Suspicious EFT/Wire transfers</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36k" name="m36k" value="true" />
+                  <span>k. Trade based Money laundering/Black
+                    market peso exchange</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36f" name="m36f" value="true" />
+                  <span>f. Suspicious exchange of currencies</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36l" name="m361" value="true" />
+                  <span>l. Transaction out of pattern for
+                    Customer(s)</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MnyLaund.m36z" name="m36z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.MnyLaund.m36ztext" name="m36ztext" class="form-control"
+                         id="m36ztext" value="">
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-8 control-label">39 Insurance</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39a" name="i39a" value="true" />
+                  <span>a. Excessive Insurance</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39b" name="i39b" value="true" />
+                  <span>b. Excessive or unusal cash borrowing against policy/annuity</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39c" name="i39c" value="true" />
+                  <span>c. Proceeds sent to or received from unrelated third party</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39d" name="i39d" value="true" />
+                  <span>d. Suspicious life settlement Sales Insurance</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39e" name="i39e" value="true" />
+                  <span>e. Suspicious termination of policy or contract</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39f" name="i39f" value="true" />
+                  <span>f. Unclear or no insurable interest</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.Insurance.i39z" name="i39z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.Insurance.i39ztext" name="i39ztext" class="form-control"
+                         id="i39ztext" value="">
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-8 control-label">40 Securities/Futures/Options</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40a" name="s40a" value="true" />
+                  <span>a. Insider Trading</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40b" name="s40b" value="true" />
+                  <span>b. Market manipulation</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40c" name="s40c" value="true" />
+                  <span>c. Misappropriation</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40d" name="s40d" value="true" />
+                  <span>d. Unauthorized pooling</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40e" name="s40e" value="true" />
+                  <span>e. Wash trading</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40z" name="s40z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.SecFutOpt.s40ztext" name="s40ztext" class="form-control"
+                         id="s40ztext" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-8 control-label">41 Mortgage Fraud</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MortFraud.m41a" name="m41a" value="true" />
+                  <span>a. Application Fraud</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MortFraud.m41b" name="m41b" value="true" />
+                  <span>b. Appraisal Fraud</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MortFraud.m41c" name="m41c" value="true" />
+                  <span>c. Foreclosure Fraud</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MortFraud.m41d" name="m41d" value="true" />
+                  <span>d. Loan Modification Fraud</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MortFraud.m41e" name="m41e" value="true" />
+                  <span>e. Organization Fraud</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.MortFraud.m41z" name="m41z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.MortFraud.m41ztext" name="m41ztext" class="form-control"
+                         id="m41ztext" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-8 control-label">42 Cyber Event</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.CyberEvent.c42a" name="c42a" value="true" />
+                  <span>a. Against Financial Institution(s)</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.CyberEvent.c42b" name="c42b" value="true" />
+                  <span>b. Against Financial Institution Customer(s)</span>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-6">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.CyberEvent.c42z"  name="c42z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.CyberEvent.c42ztext" name="c42ztext" class="form-control"
+                         id="c42ztext" value="">
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-6">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-8 control-label">45 Were any of the following product type(s)
+                involved in teh suspicious activity? (check all that apply)</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45a" name="p45a" value="true" />
+                  <span>a. Bonds/Notes</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45g" name="p45g" value="true" />
+                  <span>g. Forex transactions</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45m" name="p45m" value="true" />
+                  <span>m. Penny Stocks/Microcap Securities</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45s" name="p45s" value="true" />
+                  <span>s. Stocks</span>
+                </div>
+
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45b" name="p45b" value="true" />
+                  <span>b. Commercial Mortgage</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45h" name="p45h" value="true" />
+                  <span>h. Futures/Options on futures</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45n" name="p45n" value="true" />
+                  <span>n. Mutual fund</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45t" name="p45t" value="true" />
+                  <span>t. Swap/hybrid or other derivatives</span>
+                </div>
+
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45c" name="p45c" value="true" />
+                  <span>c. Commercial paper</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45i" name="p45i" value="true" />
+                  <span>i. Hedge Fund</span>
+                </div>
+
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45o" name="p45o" value="true" />
+                  <span>o. Options on Securities</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45z" name="p45z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.ProductTypes.p45ztext" name="p45ztext" class="form-control"
+                         id="p45ztext" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45d"  name="p45d" value="true" />
+                  <span>d. Credit card</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45j" name="p45j" value="true" />
+                  <span>j. Home equity Line of credit</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45p" name="p45p" value="true" />
+                  <span>p. Prepaid access</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45e" name="p45e" value="true" />
+                  <span>e. Debit card</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45k" name="p45k" value="true" />
+                  <span>k. Home equity Loan</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45q" name="p45q" value="true" />
+                  <span>q. Residential mortgage</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45f" name="p45f" value="true" />
+                  <span>f. Deposit Account</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45l" name="p45l" value="true" />
+                  <span>l. Insurance/Annuity products</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.ProductTypes.p45r" name="p45r" value="true" />
+                  <span>r. Secuirty futures products</span>
+                </div>
+
+              </fieldset>
+              <fieldset class="col-sm-3">
+              </fieldset>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-9 control-label">46 Were any of the following instrument
+                type(s)/payment mechanisms involved in the suspicious activity? (check all that apply)</label>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46a" name="i46a" value="true" />
+                  <span>a. Bank/cashier check</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46d" name="i46d" value="true" />
+                  <span>d. Gaming instruments</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46g" name="i46g" value="true" />
+                  <span>g. Personal/Business check</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div class="form-inline">
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46z" name="i46z" value="true" />
+                  <span>z. Other</span>
+                  <input type="text" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46ztext" name="i46ztext" class="form-control"
+                         id="inputEmail3" value="">
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46b" name="i46b" value="true" />
+                  <span>b. Foreign Currency</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46e" name="i46e" value="true" />
+                  <span>e. Government payment</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46h" name="i46h" value="true" />
+                  <span>h. Travellers checks</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46c" name="i46c" value="true" />
+                  <span>c. Funds Transfer</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46f" name="i46f" value="true" />
+                  <span>f. Money orders</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+                <div>
+                  <input type="checkbox" [(ngModel)]="regData.SuspActivity.InstrumentTypes.i46i" name="i46i" value="true" />
+                  <span>i. U.S. Currency</span>
+                </div>
+              </fieldset>
+              <fieldset class="col-sm-3">
+              </fieldset>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-lg-3 control-label">48 IP address (if available)</label>
+            </div>
+            <div class="form-group row">
+              <div
+                      ui-grid="{enableSelectAll: true,paginationPageSize: 3,paginationPageSizes: [3, 6, 9],columnDefs: ipAddrColDefs, data : regData.SuspActivity.IpAddrs }"
+                      ui-grid-pagination ui-grid-auto-resize class="myGrid col-lg-offset-1 "
+                      style="height:200px;width: 580px;">
+              </div>
+            </div>
+          </div>-->
+          <div class="tab-pane custom-tab-pan" id="Narrative">
+            <div class="panel panel-primary">
+              <div class="panel-body">
+                <div class="col-lg-12">
+                  <p><label>Suspicious Activity Information - Narrative :</label> </p>
+                </div>
+                <div class="col-lg-12">
+                  <textarea class="form-control" [(ngModel)]="regData.Narrative"  name="Narrative" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
