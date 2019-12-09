@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Company, Service} from '../../services/data.services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CasesService} from '../../services/cases.service';
+import {NotificationService} from '../../services/notification.service';
 
 @Component({
     selector: 'app-detail-case',
@@ -30,13 +31,16 @@ export class DetailCaseComponent implements OnInit {
     selectedRows: any = [];
     columnChooserModes = 'select';
     showFilterRow: boolean;
+    page;
 
     constructor(private casesService: CasesService,
                 private router: Router,
+                private notificationService: NotificationService,
                 private activateRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
+        this.page = sessionStorage.getItem('page')
         this.activateRoute.queryParams.subscribe((data) => {
             console.log('data.stack', data.id);
             this.selectedCase = data.id;
@@ -129,15 +133,35 @@ export class DetailCaseComponent implements OnInit {
             })
     }
 
+    openCheckOutModel() {
+        const data = {
+            CsActUser: 'DEMOUSER1',
+            CaseId: this.selectedCase
+        };
+        const checkInData = [];
+        checkInData.push(data)
+        this.casesService.checkOutCases(checkInData)
+            .subscribe((res) => {
+                console.log('check in res', res);
+                this.showSuccessMsg = true;
+                this.router.navigate(['/availCases']);
+                // this.notificationService.showNotification(res, 'success')
+
+            })
+    }
+
     openCreateSAR() {
         this.router.navigate(['/sarCases'], {queryParams: {id: this.selectedCase}});
     }
+
     openCloseModal() {
         this.closeModal = 'block';
     }
+
     openRouteModal() {
         this.RouteModal = 'block';
     }
+
     onRouteok() {
         const data = {
             CsActUser: 'DEMOUSER1',
@@ -153,6 +177,7 @@ export class DetailCaseComponent implements OnInit {
                 this.router.navigate(['/myCases']);
             })
     }
+
     oncloseok() {
         const data = {
             CsActUser: 'DEMOUSER1',
@@ -169,6 +194,7 @@ export class DetailCaseComponent implements OnInit {
             })
 
     }
+
     onTxnNbrClick(val) {
         this.router.navigate(['/dtlAlerts'], {queryParams: {id: val}});
     }
@@ -181,5 +207,21 @@ export class DetailCaseComponent implements OnInit {
     onTxnEmpClick(data) {
         this.empDtlData = data.key.TxnEmp;
         this.empDtlModel = 'block';
+    }
+
+    openActiveModel() {
+        const data = {
+            CsActUser: 'DEMOUSER1',
+            CaseId: this.selectedCase
+        };
+        const checkInData = [];
+        checkInData.push(data)
+        this.casesService.activateCases(checkInData)
+            .subscribe((res) => {
+                console.log('check in res', res);
+                this.notificationService.showNotification(res.message, 'success')
+                this.router.navigate(['/closedCases'], {queryParams: {id: this.selectedCase}});
+
+            })
     }
 }

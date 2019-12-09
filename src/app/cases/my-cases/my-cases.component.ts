@@ -76,12 +76,6 @@ export class MyCasesComponent implements OnInit {
         }
     }
     openCheckInModel() {
-        // const data = {
-        //     CsActUser: this.userid,
-        //     CaseId: this.selectedCase
-        // };
-        // const checkInData = [];
-        // checkInData.push(data)
         let data = [];
         data = this.selectedRows;
         data.forEach((x) => {
@@ -154,6 +148,7 @@ export class MyCasesComponent implements OnInit {
     }
     onDblClick(val) {
         console.log('valllll', val.data.CaseId);
+        sessionStorage.setItem('page', 'mycases');
         this.router.navigate(['/dtlCases'], {queryParams: {id: val.data.CaseId}});
     }
 

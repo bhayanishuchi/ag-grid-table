@@ -3,11 +3,33 @@
     <div class="panel-heading">
       <div class="row" style="padding: 10px">
         <h3 class="panel-title">Case Details: {{selectedCase}}</h3>
-        <div class="pull-right">
-          <button class="btn btn-sm custom-btn" (click)="openCheckInModel()">Check In</button>
-          <button class="btn btn-sm custom-btn" (click)="openCreateSAR()">Create SAR</button>
-          <button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>
-          <button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>
+        <!--<div class="pull-right">-->
+          <!--<button class="btn btn-sm custom-btn" (click)="openCheckInModel()">Check In</button>-->
+          <!--<button class="btn btn-sm custom-btn" (click)="openCreateSAR()">Create SAR</button>-->
+          <!--<button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>-->
+          <!--<button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>-->
+        <!--</div>-->
+        <div *ngIf="page === 'mycases'">
+          <div class="pull-right">
+            <button class="btn btn-sm custom-btn" (click)="openCheckInModel()">Check In</button>
+            <button class="btn btn-sm custom-btn" (click)="openCreateSAR()">Create SAR</button>
+            <button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>
+            <button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>
+          </div>
+        </div>
+        <div *ngIf="page === 'availCase'">
+          <div class="pull-right">
+            <button class="btn btn-sm custom-btn" (click)="openCheckOutModel()">Check Out</button>
+            <button class="btn btn-sm custom-btn" (click)="openCreateSAR()">Create SAR</button>
+            <button class="btn btn-sm custom-btn" (click)="openRouteModal()">Route</button>
+            <button class="btn btn-sm custom-btn" (click)="openCloseModal()">Close</button>
+          </div>
+        </div>
+
+        <div *ngIf="page === 'closedCase'">
+          <div class="pull-right">
+            <button class="btn btn-sm custom-btn" (click)="openActiveModel()">Active </button>
+          </div>
         </div>
       </div>
 

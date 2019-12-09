@@ -21,6 +21,12 @@ export class CasesService {
     checkInCases(data) {
         return this.http.put<any>(this.api + '/cinCases', data);
     }
+    checkOutCases(data) {
+        return this.http.put<any>(this.api + '/coutCases', data);
+    }
+    activateCases(data) {
+        return this.http.put<any>(this.api + '/activateCases', data);
+    }
     getusers() {
         return this.http.get<any>('https://devamlapi.azurewebsites.net/users');
     }
