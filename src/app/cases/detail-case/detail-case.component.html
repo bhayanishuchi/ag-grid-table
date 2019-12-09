@@ -291,13 +291,21 @@
                   caption="Currency">
           </dxi-column>
           <dxi-column
+                  cellTemplate="cellTemplate2"
                   dataField="TxnLoc.LocNbr"
                   caption="Location Nbr">
           </dxi-column>
+          <div *dxTemplate="let cell of 'cellTemplate2'">
+            <a class="dx-link" (click)="onTxnLocClick(cell)">{{cell.text}}</a>
+          </div>
           <dxi-column
+                  cellTemplate="cellTemplate3"
                   dataField="TxnEmp.EmpNbr"
                   caption="Employee Nbr">
           </dxi-column>
+          <div *dxTemplate="let cell of 'cellTemplate3'">
+            <a class="dx-link" (click)="onTxnEmpClick(cell)">{{cell.text}}</a>
+          </div>
           <dxo-paging [pageSize]="5"></dxo-paging>
           <dxo-pager
                   [showPageSizeSelector]="true"
@@ -496,6 +504,115 @@
           <button type="button" class="btn btn-default" (click)="oncloseok()">OK</button>
 
           <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <!--    Location Detail Modal-->
+  <div class="backdrop" [ngStyle]="{'display':locationDtlModel}"></div>
+  <div class="modal backdrop" id="locationDtl" tabindex="-1" role="dialog" [ngStyle]="{'display':locationDtlModel}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <h4 class="modal-title custom-title">Location Details</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="from-group">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <span>Name :</span>&nbsp;{{locationDtlData.LocName}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Number :</span>&nbsp;{{locationDtlData.LocNbr}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Type :</span>&nbsp;{{locationDtlData.LocType}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Hr Ind :</span>&nbsp;{{locationDtlData.LocHrInd}}<br>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <span>Address :</span>&nbsp;{{locationDtlData.LocAddr}}<br>
+                </div>
+                <div class="form-group">
+                  <span>City :</span>&nbsp;{{locationDtlData.LocCity}}<br>
+                </div>
+                <div class="form-group">
+                  <span>State :</span>&nbsp;{{locationDtlData.LocState}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Zip :</span>&nbsp;{{locationDtlData.LocZip}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Country :</span>&nbsp;{{locationDtlData.LocCntry}}<br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn custom-btn-1" (click)="onCloseHandled()">OK</button>
+             
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <!--    Location Detail Modal-->
+  <div class="backdrop" [ngStyle]="{'display':empDtlModel}"></div>
+  <div class="modal backdrop" id="empDtl" tabindex="-1" role="dialog" [ngStyle]="{'display':empDtlModel}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="height: 70px;">
+          <h4 class="modal-title custom-title">Employee Details</h4>   
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="from-group">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <span>Name :</span>&nbsp;{{empDtlData.FName}}{{empDtlData.LName}}
+                </div>
+                <div class="form-group">
+                  <span>Number :</span>&nbsp;{{empDtlData.EmpNbr}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Title :</span>&nbsp;{{empDtlData.Title}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Email :</span>&nbsp;{{empDtlData.EmpEmail}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Phone :</span>&nbsp;{{empDtlData.EmpWorkPh}}<br>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <span>Address :</span>&nbsp;{{empDtlData.Addr1}}<br>
+                </div>
+                <div class="form-group">
+                  <span>City :</span>&nbsp;{{empDtlData.City}}<br>
+                </div>
+                <div class="form-group">
+                  <span>State :</span>&nbsp;{{empDtlData.State}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Zip :</span>&nbsp;{{empDtlData.EmpZip}}<br>
+                </div>
+                <div class="form-group">
+                  <span>Country :</span>&nbsp;{{empDtlData.EmpCntry}}<br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn custom-btn-1" (click)="onCloseHandled()">OK</button>
              
         </div>
       </div><!-- /.modal-content -->
