@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertService} from '../../services/alert.service';
 import {CasesService} from '../../services/cases.service';
 import {ActivatedRoute} from '@angular/router';
 import {DxDataGridComponent} from 'devextreme-angular';

@@ -39,7 +39,7 @@ export class DetailAlertComponent implements OnInit {
     selectMycase;
     case_id;
     page;
-file;
+    file;
 
     constructor(private activateRoute: ActivatedRoute,
                 private router: Router,
@@ -187,7 +187,6 @@ file;
     }
 
     uploadFileData() {
-
         console.log('upload', this.uploadFile, this.file);
         const data = {
             file: this.uploadFile,

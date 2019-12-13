@@ -16,6 +16,8 @@ import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.componen
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ToastrModule} from 'ngx-toastr';
 import {JwtInterceptor} from './_helpers/jwt.interceptor';
+import {DevExtremeModule} from 'devextreme-angular';
+
 
 @NgModule({
     imports: [
@@ -28,11 +30,13 @@ import {JwtInterceptor} from './_helpers/jwt.interceptor';
         SidebarModule,
         AppRoutingModule,
         HttpClientModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        DevExtremeModule
     ],
     declarations: [
         AppComponent,
         AdminLayoutComponent,
+
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

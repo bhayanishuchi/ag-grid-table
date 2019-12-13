@@ -26,6 +26,12 @@ import { SarDetailComponent } from '../../cases/sar-detail/sar-detail.component'
 import { AvailableCasesComponent } from '../../cases/available-cases/available-cases.component';
 import { FiledCasesComponent } from '../../cases/filed-cases/filed-cases.component';
 import { ClosedCasesComponent } from '../../cases/closed-cases/closed-cases.component';
+import { ReportComponent } from '../../regulatory/report/report.component';
+import { EFilesComponent } from '../../regulatory/e-files/e-files.component';
+import { SarRegulatoryComponent } from '../../regulatory/sar-regulatory/sar-regulatory.component';
+import { UsersComponent } from '../../administration/users/users.component';
+import { ScenariosComponent } from '../../administration/scenarios/scenarios.component';
+import {ScenariosDetailComponent} from '../../administration/scenarios-detail/scenarios-detail.component';
 
 @NgModule({
   imports: [
@@ -55,6 +61,13 @@ import { ClosedCasesComponent } from '../../cases/closed-cases/closed-cases.comp
     AvailableCasesComponent,
     FiledCasesComponent,
     ClosedCasesComponent,
+    ReportComponent,
+    EFilesComponent,
+    SarRegulatoryComponent,
+    UsersComponent,
+    ScenariosComponent,
+    ScenariosDetailComponent,
+
   ],
   providers: [Service]
 })

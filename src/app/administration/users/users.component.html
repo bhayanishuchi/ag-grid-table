@@ -1,0 +1,92 @@
+<!--<h2>My Cases</h2>-->
+
+<!--<div>-->
+<!--<div ui-grid="gridOptions" style="height:765px" ui-grid-auto-resize ui-grid-resize-columns ui-grid-pagination ui-grid-selection ui-grid-exporter class="myGrid"></div>-->
+<!--</div>-->
+
+<!--<script type="text/ng-template" id="ui-grid/uiGridCell">-->
+<!--<div class="ui-grid-cell-contents my-cell" ng-dblclick="grid.appScope.caseDtls(row)">{{COL_FIELD CUSTOM_FILTERS}}</div>-->
+<!--</script>-->
+
+
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="header">
+            <h4 class="title">Users</h4>
+<!--            <div class="pull-right" style="position: absolute; z-index: 1; right: 30px; top: 93px;">-->
+<!--              <li style="list-style: none" class="nav-item dropdown">-->
+<!--                <a href="#" class="dropdown-toggle btn btn-sm" style="color: black; border-color: black;" data-toggle="dropdown">-->
+<!--                  <i class="fa fa-bars"></i>-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu" style="right: 0; left: auto;">-->
+<!--                  <li><a (click)="getSelectedRows('activate')">Activate</a></li>-->
+<!--                  <li><a (click)="getSelectedRows('deActivate')">De-Activate</a></li>-->
+<!--                </ul>-->
+<!--              </li>-->
+<!--            </div>-->
+            <dx-data-grid
+                    id="gridContainer"
+                    [dataSource]="dataSource"
+                    [showBorders]="true"
+                    [(selectedRowKeys)]="selectedRows"
+                    (onCellDblClick)="onDblClick($event)"
+                    [rowAlternationEnabled]="true">
+
+              <dxo-column-chooser #columnChooser
+                                  [enabled]="true"
+                                  [mode]="columnChooserModes">
+              </dxo-column-chooser>
+              <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+              <dxo-filter-row
+                      [visible]="showFilterRow"
+                      [applyFilter]="currentFilter"></dxo-filter-row>
+              <dxo-selection
+                      [selectAllMode]="allMode"
+                      [showCheckBoxesMode]="checkBoxesMode"
+                      mode="multiple"
+              ></dxo-selection>
+              <dxi-column
+                      dataField="id"
+                      caption="User ID">
+              </dxi-column>
+              <dxi-column
+                      dataField="firstName"
+                      caption="FirstName">
+              </dxi-column>
+              <dxi-column
+                      dataField="lastName"
+                      caption="LastName">
+              </dxi-column>
+              <dxi-column
+                      dataField="username"
+                      caption="Username">
+              </dxi-column>
+              <dxi-column
+                      dataField="role"
+                      caption="Role">
+              </dxi-column>
+              <dxi-column
+                      dataField="createdDate"
+                      caption="Created Date"
+                      dataType="date"
+                      format='yyyy-MM-dd'>
+              </dxi-column>
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager
+                      [showPageSizeSelector]="true"
+                      [allowedPageSizes]="[5, 10, 20]"
+                      [showInfo]="true">
+              </dxo-pager>
+              <dxo-export [enabled]="true"></dxo-export>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

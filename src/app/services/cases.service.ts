@@ -48,7 +48,15 @@ export class CasesService {
     sarCases(data) {
         return this.http.get(this.api + '/crtCsSar/' + data);
     }
+
     getlovs() {
         return this.http.get<any>(this.api + '/lovs');
     }
+    addcomment(data) {
+        return this.http.put<any>(this.api + '/commCase', data);
+    }
+    uploadFile(caseId, data) {
+        return this.http.post<any>(this.api + '/upload/' + caseId, data);
+    }
+
 }

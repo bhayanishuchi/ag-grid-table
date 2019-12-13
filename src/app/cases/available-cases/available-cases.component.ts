@@ -92,7 +92,7 @@ export class AvailableCasesComponent implements OnInit {
     onDblClick(val) {
         console.log('valllll', val.data.AlertId);
         sessionStorage.setItem('page', 'availCase');
-        this.router.navigate(['/dtlCases'], {queryParams: {id: val.data.CaseId}});
+        this.router.navigate(['/sarCases'], {queryParams: {id: val.data.CaseId}});
     }
     
     openCheckOutModel() {

@@ -32,6 +32,7 @@ export class DetailCaseComponent implements OnInit {
     columnChooserModes = 'select';
     showFilterRow: boolean;
     page;
+    file;
 
     constructor(private casesService: CasesService,
                 private router: Router,
@@ -76,30 +77,76 @@ export class DetailCaseComponent implements OnInit {
 
     uploadFileData() {
         console.log('upload', this.uploadFile);
-        // let data = {
-        //     file: this.uploadFile,
-        //     ActUser: 'DEMOUSER1'
-        // };
-        // this.alertService.uploadFile(this.selectedCase, data)
-        //     .subscribe((res) => {
-        //         console.log('upload res', res)
-        //         this.showSuccessMsg = true;
-        //     })
+        let data = {
+            file: this.uploadFile,
+            ActUser: 'DEMOUSER1'
+        };
+        const formdata = new FormData();
+        formdata.append('file', this.file)
+        formdata.append('ActUser', 'DEMOUSER1')
+        formdata.append('Content-Type', 'multipart/form-data')
+        this.casesService.uploadFile(this.selectedCase, data)
+            .subscribe((res) => {
+                console.log('upload res', res)
+                this.showSuccessMsg = true;
+            })
+    }
+
+    Fileupload(inputElement: any) {
+        const file = inputElement.target.files[0];
+        const reader = new FileReader();
+        const that = this
+        reader.onloadend = function () {
+            const block = (reader.result).split(';');
+            const contentType = block[0].split(':')[1];
+            const realData = block[1].split(',')[1];
+            const blob = that.b64toBlob(realData, contentType);
+            that.file = blob
+            console.log('that.file', that.file)
+
+        }
+        reader.readAsDataURL(file);
+        console.log('file', file)
+
+    }
+
+    b64toBlob(b64Data, contentType) {
+        contentType = contentType || '';
+        const sliceSize = 512;
+
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, {type: contentType});
+        return blob;
     }
 
     addCommentData() {
         console.log('upload', this.commentData);
-        // let data = {
-        //     AlActUser: 'DEMOUSER1',
-        //     AlertId: this.selectedCase,
-        //     CommentTxt: this.commentData
-        // };
-        // this.alertService.addAltComment(data)
-        //     .subscribe((res) => {
-        //         console.log('comment res', res);
-        //         this.displayCommentModal = 'none';
-        //         this.getDetailAlt(this.selectedCase);
-        //     })
+        let data = {
+            CaseId: this.selectedCase,
+            CommentTxt: this.commentData,
+            CsActUser: 'DEMOUSER1'
+        };
+        this.casesService.addcomment(data)
+            .subscribe((res) => {
+                console.log('comment res', res);
+                this.displayCommentModal = 'none';
+                this.getDetailAlt(this.selectedCase);
+            })
     }
 
     onCloseHandled() {
@@ -224,4 +271,10 @@ export class DetailCaseComponent implements OnInit {
 
             })
     }
+
+    okUpload() {
+        this.getDetailAlt(this.selectedCase);
+        this.display = 'none';
+    }
+
 }

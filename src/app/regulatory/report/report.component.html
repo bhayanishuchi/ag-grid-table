@@ -1,0 +1,101 @@
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Reports</h4>
+                        <dx-data-grid
+                                id="gridContainer"
+                                [dataSource]="dataSource"
+                                [showBorders]="true"
+                                (onCellDblClick)="onDblClick($event)"
+                                (onCellPrepared)="onCellPrepared($event)">
+
+                            <dxo-column-chooser #columnChooser
+                                                [enabled]="true"
+                                                [mode]="columnChooserModes">
+                            </dxo-column-chooser>
+                            <dxo-column-chooser [mode]="columnChooserModes" [enabled]="true"></dxo-column-chooser>
+                            <dxo-filter-row
+                                    [visible]="showFilterRow"
+                                    [applyFilter]="currentFilter"></dxo-filter-row>
+                            <dxo-selection
+                                    [selectAllMode]="allMode"
+                                    [showCheckBoxesMode]="checkBoxesMode"
+                                    mode="multiple"
+                            ></dxo-selection>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegId"
+                                    caption="Regulatory ID">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegDesc"
+                                    caption="Description">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegParentId"
+                                    caption="Case ID">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegStatus"
+                                    caption="Status">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegCrtDt"
+                                    caption="Create Date"
+                                    dataType="date"
+                                    format='yyyy-MM-dd'>
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegType"
+                                    caption="Regulatory Type">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegDCN"
+                                    caption="DCN">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegDCN"
+                                    caption="DCN">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegEfile"
+                                    caption="EFile">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegFilType"
+                                    caption="File Type">
+                            </dxi-column>
+                            <dxi-column
+                                    alignment="center"
+                                    dataField="RegEfileDt"
+                                    caption="Efile Date"
+                                    dataType="date"
+                                    format='yyyy-MM-dd'>
+                            </dxi-column>
+                            <dxo-paging [pageSize]="5"></dxo-paging>
+                            <dxo-pager
+                                    [showPageSizeSelector]="true"
+                                    [allowedPageSizes]="[5, 10, 20]"
+                                    [showInfo]="true">
+                            </dxo-pager>
+                            <dxo-export [enabled]="true"></dxo-export>
+                        </dx-data-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

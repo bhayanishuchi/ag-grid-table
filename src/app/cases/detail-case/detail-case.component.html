@@ -78,6 +78,7 @@
               </div>
             </div>
           </div>
+
           <div class="tab-pane custom-tab-pan" id="history">
             <table class="table table-bordered">
               <thead>
@@ -96,42 +97,58 @@
               </tbody>
             </table>
           </div>
+
           <div class="tab-pane custom-tab-pan" id="documents">
-            <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th>Action</th>
-                <th>Action Date</th>
-                <th>Action User</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let action of detailData.AlDocuments">
-                <td>{{action.DocDate | date: 'yyyy-MM-dd'}}</td>
-                <td>{{action.DocUser}}</td>
-                <td>{{action.FileName}}</td>
-              </tr>
-              </tbody>
-            </table>
+            <div>
+              <dx-data-grid
+                      [dataSource]="historyData.CsDocuments"
+                      [showBorders]="true">
+                <dxi-column
+                        alignment="center"
+                        dataField="DocDate"
+                        caption="Upload Date"
+                        dataType="date"
+                        format='yyyy-MM-dd'>
+                </dxi-column>
+                <dxi-column
+                        alignment="center"
+                        dataField="DocUser"
+                        caption="User">
+                </dxi-column>
+                <dxi-column
+                        alignment="center"
+                        dataField="FileName"
+                        caption="File">
+                </dxi-column>
+              </dx-data-grid>
+            </div>
             <div class="">
               <button (click)="openModal()">Add <i class="fa fa-plus-circle"></i></button>
             </div>
           </div>
+
+
+
           <div class="tab-pane custom-tab-pan" id="comments">
-            <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th>Text</th>
-                <th>Date</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let action of detailData.AlComments">
-                <td>{{action.CommentTxt}}</td>
-                <td>{{action.CommentDate | date: 'yyyy-MM-dd'}}</td>
-              </tr>
-              </tbody>
-            </table>
+            <div>
+              <dx-data-grid
+
+                      [dataSource]="historyData.CsComments"
+                      [showBorders]="true">
+                <dxi-column
+                        alignment="center"
+                        dataField="CommentTxt"
+                        caption="Text">
+                </dxi-column>
+                <dxi-column
+                        alignment="center"
+                        dataField="CommentDate"
+                        caption="Date"
+                        dataType="date"
+                        format='yyyy-MM-dd'>
+                </dxi-column>
+              </dx-data-grid>
+            </div>
             <div class="">
               <button (click)="openCommentModal()">Add <i class="fa fa-plus-circle"></i></button>
             </div>
@@ -640,5 +657,50 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal !-->
+
+  <!--    Upload File Modal-->
+  <div class="backdrop" [ngStyle]="{'display':display}"></div>
+  <div class="modal" id="Upload" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title custom-title">Select Document</h3>
+        </div>
+        <div class="modal-body">
+          <p *ngIf="showSuccessMsg">File upload Successful. Press OK to close</p>
+          <input type="file" (change)="Fileupload($event)" >
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn custom-btn-1" *ngIf="showSuccessMsg" (click)="okUpload()">Ok</button>
+          <button type="button" class="btn custom-btn-1" *ngIf="!showSuccessMsg" (click)="uploadFileData()">Upload File</button>
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+  <!--    Comment Modal-->
+  <div class="backdrop" [ngStyle]="{'display':displayCommentModal}"></div>
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayCommentModal}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title custom-title">Add Comments</h3>
+        </div> 
+        <div class="modal-body" style="top: -30px">     
+          <div class="form-group">
+            <label>Comment:</label>
+            <textarea rows="2" class="form-control" [(ngModel)]="commentData"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">     
+          <button type="button" class="btn custom-btn-1" (click)="addCommentData()">Ok</button>
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->
+
+
 
 </div>

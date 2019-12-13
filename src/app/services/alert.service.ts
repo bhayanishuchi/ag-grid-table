@@ -76,7 +76,7 @@ export class AlertService {
     return this.http.get<any>(this.api + '/lovs');
   }
   getmycase(caseId) {
-    return this.http.get<any>(this.api + '/myCases/' + caseId);
+    return this.http.get<any>(this.api + '/myCases/' + caseId,);
 
   }
   getActive(data) {
